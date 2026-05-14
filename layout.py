@@ -31,11 +31,16 @@ def create_navbar(accounts: list = None) -> html.Div:
     if accounts:
         account_opts = []
         for a in accounts:
-            biz = a.get("business_name") or (a.get("owner_business") or {}).get("name") or "Pessoal"
-            name = a.get("name", "Sem Nome")
-            aid = a["id"].replace("act_", "")
-            label = f"[{biz}] {name} ({aid})"
-            account_opts.append({"label": label, "value": a["id"]})
+            try:
+                name = a.get("name") or "Sem Nome"
+                aid = str(a.get("id", "")).replace("act_", "")
+                label = f"{name} ({aid})"
+                account_opts.append({"label": label, "value": a.get("id")})
+            except:
+                continue
+    
+    if not account_opts:
+        account_opts = [{"label": "Nenhuma conta encontrada", "value": None}]
 
     today = date.today()
     default_end = today
