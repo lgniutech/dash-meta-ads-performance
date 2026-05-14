@@ -1,5 +1,8 @@
 # 📊 Meta Ads Performance Dashboard
 
+![Vercel Deploy](https://vercelbadge.vercel.app/api/lgniutech/dash-meta-ads-performance)
+
+
 Um dashboard de alta performance desenvolvido com **Dash (Python)** e **Plotly** para visualização e análise de métricas do Meta Business (Facebook/Instagram Ads).
 
 ## ✨ Funcionalidades
