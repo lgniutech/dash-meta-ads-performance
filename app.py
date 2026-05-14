@@ -8,12 +8,21 @@ import dash_bootstrap_components as dbc
 
 from layout import create_layout
 from callbacks import register_callbacks
-
 from api import MetaAdsAPI
 
 # Demo mode when token not configured
-_token = os.getenv("META_ACCESS_TOKEN", "").strip()
+_token_raw = os.getenv("META_ACCESS_TOKEN", "").strip()
 _account = os.getenv("META_AD_ACCOUNT_ID", "").strip()
+
+# Handle JSON token format if pasted directly
+_token = _token_raw
+if _token_raw.startswith("{"):
+    try:
+        import json
+        _token = json.loads(_token_raw).get("access_token", _token_raw)
+    except:
+        pass
+
 IS_DEMO = not _token or _token.startswith("your_")
 
 dash_app = dash.Dash(

@@ -32,9 +32,10 @@ def create_navbar(accounts: list = None) -> html.Div:
         account_opts = []
         for a in accounts:
             try:
+                biz = a.get("business_name") or "Pessoal"
                 name = a.get("name") or "Sem Nome"
                 aid = str(a.get("id", "")).replace("act_", "")
-                label = f"{name} ({aid})"
+                label = f"[{biz}] {name} ({aid})"
                 account_opts.append({"label": label, "value": a.get("id")})
             except:
                 continue
