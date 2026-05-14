@@ -324,7 +324,11 @@ def create_creative_panel() -> html.Div:
 
 # ── Full Layout ───────────────────────────────────────────────────────────────
 
-def create_layout(is_demo: bool = False) -> html.Div:
+def create_layout(is_demo: bool = False, accounts: list = None) -> html.Div:
+    # Add demo account if in demo mode and no accounts provided
+    if is_demo and not accounts:
+        accounts = [{"id": "act_demo_123", "name": "Conta de Demonstração"}]
+    
     return html.Div(
         children=[
             # Demo mode banner
@@ -335,7 +339,7 @@ def create_layout(is_demo: bool = False) -> html.Div:
                 style={"display": "block" if is_demo else "none"},
             ),
             # Navbar
-            create_navbar(),
+            create_navbar(accounts=accounts),
             # KPI row
             create_kpi_row(),
             # Main content
