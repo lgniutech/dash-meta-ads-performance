@@ -29,10 +29,13 @@ def _icon_dots():
 def create_navbar(accounts: list = None) -> html.Div:
     account_opts = []
     if accounts:
-        account_opts = [
-            {"label": a.get("name", a["id"]), "value": a["id"]}
-            for a in accounts
-        ]
+        account_opts = []
+        for a in accounts:
+            biz = a.get("business_name") or (a.get("owner_business") or {}).get("name") or "Pessoal"
+            name = a.get("name", "Sem Nome")
+            aid = a["id"].replace("act_", "")
+            label = f"[{biz}] {name} ({aid})"
+            account_opts.append({"label": label, "value": a["id"]})
 
     today = date.today()
     default_end = today

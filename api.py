@@ -69,7 +69,7 @@ class MetaAdsAPI:
         try:
             return self._paginate(
                 "/me/adaccounts",
-                {"fields": "id,name,account_status,business_name,currency", "limit": 100}
+                {"fields": "id,name,account_status,business_name,currency,owner_business", "limit": 100}
             )
         except Exception:
             return []
