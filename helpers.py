@@ -5,7 +5,7 @@ from typing import Any
 # ---------------------------------------------------------------------------
 # Raw-value extractors
 # ---------------------------------------------------------------------------
-
+ 
 def _action(lst: list, action_type: str) -> float:
     if not lst:
         return 0.0
