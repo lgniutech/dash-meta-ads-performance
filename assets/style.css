@@ -1,0 +1,431 @@
+/* ============================================================
+   Meta Ads Dashboard — Dark Teal Theme
+   ============================================================ */
+
+:root {
+  --bg:           #061919;
+  --bg-mid:       #081f1f;
+  --card:         #0c2828;
+  --card-alt:     #0e2e2e;
+  --border:       #1a4040;
+  --border-light: #204848;
+  --primary:      #00c4c4;
+  --primary-dim:  #00a0a0;
+  --green:        #22d082;
+  --red:          #e04545;
+  --text:         #ddf0f0;
+  --text-sec:     #a8cccc;
+  --text-muted:   #5a8a8a;
+  --logo-green:   #3ddb6e;
+  --font:         'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ── Base ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-mid); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── Navbar ─────────────────────────────────────────────── */
+.dash-navbar {
+  background: #040f0f;
+  border-bottom: 1px solid var(--border);
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dash-logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 10px;
+}
+
+.dash-logo-text {
+  color: var(--logo-green);
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+}
+
+.dash-title {
+  color: var(--text-sec);
+  font-size: 11px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Dropdown dark override */
+.Select-control,
+.Select-menu-outer,
+.VirtualizedSelectOption {
+  background: #0c2020 !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+.dash-filter {
+  min-width: 160px;
+}
+
+/* DatePickerRange */
+.DateInput_input {
+  background: #0c2020 !important;
+  color: var(--text) !important;
+  border-bottom-color: var(--border) !important;
+  font-size: 12px !important;
+}
+.DateRangePickerInput {
+  background: #0c2020 !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 4px !important;
+}
+.DateRangePickerInput_arrow { color: var(--text-muted) !important; }
+.CalendarDay__selected,
+.CalendarDay__selected_span { background: var(--primary) !important; border-color: var(--primary) !important; }
+
+/* ── KPI Row ────────────────────────────────────────────── */
+.kpi-row {
+  display: flex;
+  gap: 6px;
+  padding: 6px 14px 4px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-mid);
+}
+
+.kpi-card {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px 6px;
+  min-width: 0;
+}
+
+.kpi-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--text-sec);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kpi-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.kpi-change {
+  font-size: 11px;
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+/* ── Change indicators ──────────────────────────────────── */
+.change-pos   { color: var(--green); }
+.change-neg   { color: var(--red); }
+.change-neutral { color: var(--text-muted); }
+
+/* ── Main content layout ────────────────────────────────── */
+.main-content {
+  display: flex;
+  gap: 6px;
+  padding: 6px 14px 10px;
+  height: calc(100vh - 115px);
+  overflow: hidden;
+}
+
+/* ── Left: Funnel Panel ─────────────────────────────────── */
+.funnel-panel {
+  width: 190px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+
+.funnel-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 8px 6px;
+  text-align: center;
+}
+
+.funnel-section-title {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 1px;
+}
+
+.funnel-main-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.funnel-main-change {
+  font-size: 11px;
+  font-weight: 500;
+  min-height: 14px;
+}
+
+.funnel-sub-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  gap: 4px;
+}
+
+.funnel-sub-item {
+  flex: 1;
+  background: var(--card-alt);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 5px;
+  text-align: center;
+}
+
+.funnel-sub-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.funnel-sub-value {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-sec);
+}
+
+.funnel-sub-change {
+  font-size: 10px;
+}
+
+/* ── Center Panel ───────────────────────────────────────── */
+.center-panel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.chart-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.chart-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.chart-body {
+  padding: 0;
+}
+
+.charts-bottom-row {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
+}
+
+.charts-bottom-row .chart-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Right: Creative Champion ───────────────────────────── */
+.creative-panel {
+  width: 400px;
+  flex-shrink: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.creative-header {
+  padding: 7px 10px 4px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.creative-table-wrap {
+  overflow: auto;
+  flex: 1;
+}
+
+table.creative-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+table.creative-table th {
+  background: var(--card-alt);
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 5px 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+table.creative-table td {
+  padding: 5px 8px;
+  text-align: center;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  background: var(--card);
+}
+
+table.creative-table tr:nth-child(even) td {
+  background: var(--card-alt);
+}
+
+table.creative-table .row-label {
+  text-align: left;
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 10px;
+  white-space: nowrap;
+  padding-left: 10px;
+  min-width: 80px;
+}
+
+.creative-thumb-cell {
+  padding: 6px 8px !important;
+}
+
+.creative-thumb {
+  width: 80px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 5px;
+  display: block;
+  margin: 0 auto;
+  background: var(--card-alt);
+}
+
+.creative-thumb-placeholder {
+  width: 80px;
+  height: 70px;
+  border-radius: 5px;
+  background: var(--card-alt);
+  border: 1px dashed var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 10px;
+  margin: 0 auto;
+}
+
+.creative-ad-name {
+  font-size: 10px;
+  color: var(--text-sec);
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  margin: 0 auto;
+}
+
+.ad-link {
+  color: var(--primary);
+  font-size: 10px;
+  text-decoration: underline;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.highlight-col {
+  background: rgba(0, 196, 196, 0.08) !important;
+  font-weight: 700;
+  color: var(--primary) !important;
+}
+
+/* ── Demo banner ────────────────────────────────────────── */
+.demo-banner {
+  background: rgba(0, 150, 150, 0.15);
+  border: 1px solid var(--primary-dim);
+  color: var(--primary);
+  font-size: 11px;
+  padding: 4px 14px;
+  text-align: center;
+}
+
+/* ── Loading overlay ────────────────────────────────────── */
+._dash-loading-callback {
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+/* ── Plotly chart theme overrides ───────────────────────── */
+.js-plotly-plot .plotly .modebar {
+  background: transparent !important;
+}
+.js-plotly-plot .plotly .modebar-btn path {
+  fill: var(--text-muted) !important;
+}
