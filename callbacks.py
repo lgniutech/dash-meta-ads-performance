@@ -414,6 +414,29 @@ def register_callbacks(app):
         audience = api.get_audience_breakdown(**date_kw)
         ads_raw = api.get_ad_insights(**date_kw)
 
+        # Fallback: If summary is empty but we have campaign data, aggregate it manually
+        if not summary_raw and campaigns:
+            agg = {
+                "spend": sum(float(c.get("spend", 0)) for c in campaigns),
+                "impressions": sum(int(c.get("impressions", 0)) for c in campaigns),
+                "clicks": sum(int(c.get("clicks", 0)) for c in campaigns),
+                "actions": [],
+                "action_values": []
+            }
+            all_actions = {}
+            all_values = {}
+            for c in campaigns:
+                for act in c.get("actions", []):
+                    t = act["action_type"]
+                    all_actions[t] = all_actions.get(t, 0) + float(act["value"])
+                for val in c.get("action_values", []):
+                    t = val["action_type"]
+                    all_values[t] = all_values.get(t, 0) + float(val["value"])
+            
+            agg["actions"] = [{"action_type": k, "value": v} for k, v in all_actions.items()]
+            agg["action_values"] = [{"action_type": k, "value": v} for k, v in all_values.items()]
+            summary = h.parse_insight(agg)
+
         # Enrich ads with creative thumbnails
         for ad in ads_raw:
             ad_id = ad.get("ad_id", "")
