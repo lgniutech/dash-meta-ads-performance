@@ -67,8 +67,10 @@ class MetaAdsAPI:
 
     def get_ad_accounts(self) -> list:
         try:
-            d = self._get("/me/adaccounts", {"fields": "id,name,account_status,business_name,currency"})
-            return d.get("data", [])
+            return self._paginate(
+                "/me/adaccounts",
+                {"fields": "id,name,account_status,business_name,currency", "limit": 100}
+            )
         except Exception:
             return []
 
