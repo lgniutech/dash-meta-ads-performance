@@ -18,10 +18,13 @@ export default function Home() {
       return !node.classList?.contains("no-export");
     };
 
+    // Improve capture quality and ensure full height
     toPng(node, { 
       cacheBust: true, 
       backgroundColor: "#000000",
-      filter: filter as any
+      filter: filter as any,
+      pixelRatio: 2, // Higher quality
+      skipFonts: false,
     })
       .then((dataUrl) => {
         const link = document.createElement("a");
@@ -42,7 +45,7 @@ export default function Home() {
         const creativeUrl = creative?.image_url || creative?.thumbnail_url;
 
         return (
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-8 pb-20"> {/* Added padding to ensure bottom capture */}
             {/* Header Title with Logo (Enlarged) */}
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
