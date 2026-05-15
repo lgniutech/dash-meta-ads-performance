@@ -21,8 +21,7 @@ export const INSIGHT_FIELDS = [
   "video_thruplay_watched_actions",
   "outbound_clicks",
   "outbound_clicks_ctr",
-  "cost_per_outbound_click",
-  "instagram_follows"
+  "cost_per_outbound_click"
 ];
 
 export class MetaAdsAPI {
