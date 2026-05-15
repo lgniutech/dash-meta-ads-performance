@@ -40,7 +40,7 @@ export function KPISection({ data, brand, mode }: KPIProps) {
   
   const cpa = safeDiv(spend, totalConversions);
   const roas = safeDiv(revenue, spend);
-  const cpm = safeDiv(spend, msions) * 1000; // Not used but available
+  const cpm = safeDiv(spend, impressions) * 1000; // Fixed typo from msions
   const cpm_val = parseFloat(data?.cpm || 0);
   const costPerMsg = safeDiv(spend, msgs);
 
