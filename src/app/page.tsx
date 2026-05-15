@@ -11,20 +11,30 @@ import { useCallback } from "react";
 
 export default function Home() {
   const handleExport = useCallback((brand: string) => {
-    const node = document.getElementById("dashboard-content");
+    const node = document.getElementById("export-container");
     if (!node) return;
 
     const filter = (node: HTMLElement) => {
       return !node.classList?.contains("no-export");
     };
 
-    // Improve capture quality and ensure full height
+    // Force full dimensions calculation
+    const width = node.offsetWidth;
+    const height = node.scrollHeight;
+
     toPng(node, { 
       cacheBust: true, 
       backgroundColor: "#000000",
       filter: filter as any,
-      pixelRatio: 2, // Higher quality
-      skipFonts: false,
+      pixelRatio: 2,
+      width: width,
+      height: height,
+      style: {
+        transform: 'scale(1)',
+        transformOrigin: 'top left',
+        width: width + 'px',
+        height: height + 'px'
+      }
     })
       .then((dataUrl) => {
         const link = document.createElement("a");
@@ -45,8 +55,8 @@ export default function Home() {
         const creativeUrl = creative?.image_url || creative?.thumbnail_url;
 
         return (
-          <div className="flex flex-col gap-8 pb-20"> {/* Added padding to ensure bottom capture */}
-            {/* Header Title with Logo (Enlarged) */}
+          <div className="flex flex-col gap-8">
+            {/* Header Title with Logo */}
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
