@@ -43,8 +43,8 @@ export function Navbar({
             <img 
               src={`/logos/logo-${brand}.png`} 
               alt={brand} 
-              className="h-7 w-auto object-contain transition-all duration-500 brightness-0 invert" 
-              style={{ filter: 'brightness(0) invert(1)' }}
+              className="h-7 w-auto object-contain transition-all duration-500" 
+              style={{ filter: 'invert(1) hue-rotate(180deg) contrast(1.2)' }}
             />
           </div>
 
