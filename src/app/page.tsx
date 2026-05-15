@@ -1,0 +1,87 @@
+"use client";
+
+import { Navbar } from "@/components/Navbar";
+import { KPISection } from "@/components/KPISection";
+import { ChartsSection } from "@/components/ChartsSection";
+import { motion } from "framer-motion";
+import { Card } from "@/components/ui/Card";
+import { Trophy, TrendingUp, Zap } from "lucide-react";
+
+export default function Home() {
+  return (
+    <main className="min-h-screen bg-[#060e0e] text-[#ddf0f0] font-sans pb-12">
+      <Navbar />
+
+      <div className="max-w-[1600px] mx-auto px-8 mt-8 flex flex-col gap-8">
+        {/* Header Title */}
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="flex items-center justify-between"
+        >
+          <div>
+            <h1 className="text-4xl font-heading font-extrabold tracking-tight">Dashboard de Performance</h1>
+            <p className="text-foreground/50 mt-1">Visão geral do desempenho das suas campanhas no Meta Ads</p>
+          </div>
+          
+          <div className="flex gap-4">
+            <button className="px-6 py-2.5 bg-brand text-[#060e0e] rounded-2xl font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2">
+              <Zap size={16} /> Exportar Relatório
+            </button>
+          </div>
+        </motion.div>
+
+        {/* KPIs */}
+        <KPISection />
+
+        {/* Charts and Tables */}
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+          <div className="xl:col-span-3">
+            <ChartsSection />
+          </div>
+
+          {/* Right Sidebar - Creative Champion */}
+          <div className="flex flex-col gap-6">
+            <Card variant="glass" className="flex-1">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 bg-yellow-500/20 text-yellow-500 rounded-xl">
+                  <Trophy size={20} />
+                </div>
+                <h3 className="font-heading text-lg font-bold">Criativo Campeão</h3>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <div className="aspect-video bg-card-border rounded-2xl overflow-hidden relative group">
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <button className="px-4 py-2 bg-brand text-[#060e0e] rounded-xl font-bold text-sm">Ver Detalhes</button>
+                  </div>
+                  <div className="w-full h-full bg-brand-muted/20 flex items-center justify-center text-brand/30">
+                    <Zap size={40} />
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <p className="text-sm font-bold">[V1] Promoção de Inverno - Vídeo</p>
+                  <div className="grid grid-cols-2 gap-2 text-[10px] uppercase font-bold text-foreground/40">
+                    <div className="bg-card-border p-2 rounded-lg">CTR: <span className="text-brand">3.45%</span></div>
+                    <div className="bg-card-border p-2 rounded-lg">CPA: <span className="text-brand">R$ 14,20</span></div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="bg-brand-muted/30 border-brand/20">
+              <div className="flex items-center gap-2 text-brand mb-2">
+                <TrendingUp size={16} />
+                <span className="text-xs font-bold uppercase tracking-widest">Growth Tip</span>
+              </div>
+              <p className="text-xs leading-relaxed text-foreground/70">
+                Sua campanha "Remarketing" está com ROAS 25% acima da média. Considere aumentar o orçamento em 15%.
+              </p>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
