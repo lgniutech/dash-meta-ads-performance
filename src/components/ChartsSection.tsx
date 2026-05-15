@@ -26,13 +26,13 @@ export function ChartsSection({ daily = [], campaigns = [] }: ChartsProps) {
     .map((c, i) => ({
       name: c.campaign_name,
       value: parseFloat(c.spend || 0),
-      color: ["#03D967", "#002492", "#001B5E", "#004739", "#cbd5e1"][i % 5]
+      color: ["#03D967", "#004739", "#002492", "#001B5E", "#DCEFF6"][i % 5]
     }));
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Main Timeline */}
-      <Card className="lg:col-span-2 shadow-2xl" variant="glass">
+      <Card className="lg:col-span-2" variant="glass">
         <div className="flex items-center justify-between mb-6">
           <h3 className="font-heading text-lg font-bold">Evolução Diária</h3>
           <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-foreground/50">
@@ -47,16 +47,16 @@ export function ChartsSection({ daily = [], campaigns = [] }: ChartsProps) {
             <AreaChart data={dailyChartData}>
               <defs>
                 <linearGradient id="colorSpend" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#03D967" stopOpacity={0.4}/>
+                  <stop offset="5%" stopColor="#03D967" stopOpacity={0.3}/>
                   <stop offset="95%" stopColor="#03D967" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#002492" strokeOpacity={0.05} />
-              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{fill: '#001B5E', fontSize: 10, fontWeight: 700, opacity: 0.4}} />
-              <YAxis axisLine={false} tickLine={false} tick={{fill: '#001B5E', fontSize: 10, fontWeight: 700, opacity: 0.4}} tickFormatter={(v) => `R$ ${v}`} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#002492" strokeOpacity={0.2} />
+              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{fill: '#DCEFF6', fontSize: 10, fontWeight: 700, opacity: 0.5}} />
+              <YAxis axisLine={false} tickLine={false} tick={{fill: '#DCEFF6', fontSize: 10, fontWeight: 700, opacity: 0.5}} tickFormatter={(v) => `R$ ${v}`} />
               <Tooltip 
-                contentStyle={{backgroundColor: 'rgba(255, 255, 255, 0.9)', border: '1px solid rgba(0, 36, 146, 0.1)', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,27,94,0.1)'}}
-                itemStyle={{color: '#001B5E', fontWeight: 700}}
+                contentStyle={{backgroundColor: '#001B5E', border: '1px solid #002492', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.8)'}}
+                itemStyle={{color: '#03D967', fontWeight: 700}}
                 formatter={(v: any) => [fmtBRL(v), "Investimento"]}
               />
               <Area 
@@ -74,7 +74,7 @@ export function ChartsSection({ daily = [], campaigns = [] }: ChartsProps) {
       </Card>
 
       {/* Campaigns Pie */}
-      <Card variant="glass" className="shadow-2xl">
+      <Card variant="glass">
         <h3 className="font-heading text-lg font-bold mb-6">Top 5 Campanhas (Gasto)</h3>
         <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
@@ -94,13 +94,13 @@ export function ChartsSection({ daily = [], campaigns = [] }: ChartsProps) {
                 ))}
               </Pie>
               <Tooltip 
-                contentStyle={{backgroundColor: 'rgba(255, 255, 255, 0.9)', border: '1px solid rgba(0, 36, 146, 0.1)', borderRadius: '16px'}}
+                contentStyle={{backgroundColor: '#001B5E', border: '1px solid #002492', borderRadius: '16px'}}
                 formatter={(v: any) => [fmtBRL(v), "Gasto"]}
               />
               <Legend 
                 verticalAlign="bottom" 
                 iconType="circle"
-                wrapperStyle={{fontSize: '10px', fontWeight: 700, paddingTop: '20px', color: '#001B5E'}}
+                wrapperStyle={{fontSize: '10px', fontWeight: 700, paddingTop: '20px', color: '#DCEFF6'}}
               />
             </PieChart>
           </ResponsiveContainer>

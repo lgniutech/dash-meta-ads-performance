@@ -27,14 +27,14 @@ export function Navbar({
   onCustomChange
 }: NavbarProps) {
   return (
-    <nav className="flex items-center justify-between px-8 py-4 bg-white/40 backdrop-blur-md border-b border-white/50 sticky top-0 z-50 no-export">
+    <nav className="flex items-center justify-between px-8 py-4 bg-[#000000] border-b border-card-border/30 sticky top-0 z-50 no-export">
       <div className="flex items-center gap-6">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-brand/20">
+          <div className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center text-black font-bold text-lg">
             ◆
           </div>
-          <span className="font-heading text-xl font-bold tracking-tight text-accent-dark">META ADS</span>
+          <span className="font-heading text-xl font-bold tracking-tight text-foreground">Relatório weniu</span>
         </div>
 
         {/* Selectors */}
@@ -56,8 +56,8 @@ export function Navbar({
           onCustomChange={onCustomChange}
         />
 
-        <button className="p-2 hover:bg-black/5 rounded-xl transition-colors">
-          <Search size={20} className="text-accent-dark/50" />
+        <button className="p-2 hover:bg-card rounded-xl transition-colors">
+          <Search size={20} className="text-foreground/50" />
         </button>
       </div>
     </nav>
