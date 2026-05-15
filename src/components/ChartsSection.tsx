@@ -10,9 +10,18 @@ import { fmtBRL } from "@/lib/utils";
 interface ChartsProps {
   daily: any[];
   campaigns: any[];
+  brand: string;
 }
 
-export function ChartsSection({ daily = [], campaigns = [] }: ChartsProps) {
+const PALETTES: Record<string, string[]> = {
+  weniu: ['#03D967', '#004739', '#059669', '#10b981', '#34d399'],
+  weeat: ['#f39424', '#f9ac54', '#f5b773', '#f4cc8c', '#fbbf24']
+};
+
+export function ChartsSection({ daily = [], campaigns = [], brand = 'weniu' }: ChartsProps) {
+  const primaryColor = brand === 'weniu' ? '#03D967' : '#f39424';
+  const palette = PALETTES[brand] || PALETTES.weniu;
+
   // Format daily data for Recharts
   const dailyChartData = daily.map(d => ({
     date: new Date(d.date_start).toLocaleDateString("pt-BR", { day: '2-digit', month: '2-digit' }),
@@ -26,7 +35,7 @@ export function ChartsSection({ daily = [], campaigns = [] }: ChartsProps) {
     .map((c, i) => ({
       name: c.campaign_name,
       value: parseFloat(c.spend || 0),
-      color: ["#03D967", "#004739", "#002492", "#001B5E", "#DCEFF6"][i % 5]
+      color: palette[i % palette.length]
     }));
 
   return (
@@ -34,10 +43,10 @@ export function ChartsSection({ daily = [], campaigns = [] }: ChartsProps) {
       {/* Main Timeline */}
       <Card className="lg:col-span-2" variant="glass">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="font-heading text-lg font-bold">Evolução Diária</h3>
+          <h3 className="font-heading text-lg font-bold text-foreground">Evolução Diária</h3>
           <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-foreground/50">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-brand" /> Investimento (R$)
+              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: primaryColor }} /> Investimento (R$)
             </div>
           </div>
         </div>
@@ -46,26 +55,26 @@ export function ChartsSection({ daily = [], campaigns = [] }: ChartsProps) {
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={dailyChartData}>
               <defs>
-                <linearGradient id="colorSpend" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#03D967" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#03D967" stopOpacity={0}/>
+                <linearGradient id="colorBrand" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={primaryColor} stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor={primaryColor} stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#002492" strokeOpacity={0.2} />
-              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{fill: '#DCEFF6', fontSize: 10, fontWeight: 700, opacity: 0.5}} />
-              <YAxis axisLine={false} tickLine={false} tick={{fill: '#DCEFF6', fontSize: 10, fontWeight: 700, opacity: 0.5}} tickFormatter={(v) => `R$ ${v}`} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.05} />
+              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{fill: '#DCEFF6', fontSize: 10, fontWeight: 700, opacity: 0.3}} />
+              <YAxis axisLine={false} tickLine={false} tick={{fill: '#DCEFF6', fontSize: 10, fontWeight: 700, opacity: 0.3}} tickFormatter={(v) => `R$ ${v}`} />
               <Tooltip 
-                contentStyle={{backgroundColor: '#001B5E', border: '1px solid #002492', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.8)'}}
-                itemStyle={{color: '#03D967', fontWeight: 700}}
+                contentStyle={{backgroundColor: '#0f0f0f', border: 'none', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.8)'}}
+                itemStyle={{color: primaryColor, fontWeight: 700}}
                 formatter={(v: any) => [fmtBRL(v), "Investimento"]}
               />
               <Area 
                 type="monotone" 
                 dataKey="spend" 
-                stroke="#03D967" 
+                stroke={primaryColor} 
                 strokeWidth={3}
                 fillOpacity={1} 
-                fill="url(#colorSpend)" 
+                fill="url(#colorBrand)" 
                 animationDuration={1500}
               />
             </AreaChart>
@@ -75,7 +84,7 @@ export function ChartsSection({ daily = [], campaigns = [] }: ChartsProps) {
 
       {/* Campaigns Pie */}
       <Card variant="glass">
-        <h3 className="font-heading text-lg font-bold mb-6">Top 5 Campanhas (Gasto)</h3>
+        <h3 className="font-heading text-lg font-bold mb-6 text-foreground">Top 5 Campanhas (Gasto)</h3>
         <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
@@ -94,13 +103,13 @@ export function ChartsSection({ daily = [], campaigns = [] }: ChartsProps) {
                 ))}
               </Pie>
               <Tooltip 
-                contentStyle={{backgroundColor: '#001B5E', border: '1px solid #002492', borderRadius: '16px'}}
+                contentStyle={{backgroundColor: '#0f0f0f', border: 'none', borderRadius: '16px'}}
                 formatter={(v: any) => [fmtBRL(v), "Gasto"]}
               />
               <Legend 
                 verticalAlign="bottom" 
                 iconType="circle"
-                wrapperStyle={{fontSize: '10px', fontWeight: 700, paddingTop: '20px', color: '#DCEFF6'}}
+                wrapperStyle={{fontSize: '9px', fontWeight: 700, paddingTop: '20px', color: '#DCEFF6', opacity: 0.6}}
               />
             </PieChart>
           </ResponsiveContainer>

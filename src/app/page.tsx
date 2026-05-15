@@ -5,7 +5,7 @@ import { KPISection } from "@/components/KPISection";
 import { ChartsSection } from "@/components/ChartsSection";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/Card";
-import { Trophy, TrendingUp, Zap, Download, ExternalLink } from "lucide-react";
+import { Trophy, Zap, Download, ExternalLink } from "lucide-react";
 import { toPng } from "html-to-image";
 import { useCallback } from "react";
 
@@ -20,7 +20,7 @@ export default function Home() {
 
     toPng(node, { 
       cacheBust: true, 
-      backgroundColor: "#060e0e",
+      backgroundColor: "#000000",
       filter: filter as any
     })
       .then((dataUrl) => {
@@ -50,8 +50,8 @@ export default function Home() {
               className="flex items-center justify-between"
             >
               <div>
-                <h1 className="text-4xl font-heading font-extrabold tracking-tight">Relatório {brand}</h1>
-                <p className="text-foreground/50 mt-1 uppercase text-[10px] font-bold tracking-[0.2em]">
+                <h1 className="text-4xl font-heading font-extrabold tracking-tight uppercase">Relatório {brand}</h1>
+                <p className="text-foreground/40 mt-1 uppercase text-[10px] font-bold tracking-[0.3em]">
                   {brand === 'weniu' ? 'Data-Driven Performance Command Center' : 'Growth & Nutrition Intelligence Hub'}
                 </p>
               </div>
@@ -59,7 +59,7 @@ export default function Home() {
               <div className="flex gap-4">
                 <button 
                   onClick={() => handleExport(brand)}
-                  className="px-6 py-2.5 bg-brand text-background rounded-2xl font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2 shadow-[0_0_20px_rgba(var(--brand-color),0.3)]"
+                  className="px-6 py-2.5 bg-brand text-black rounded-2xl font-bold text-sm hover:scale-105 transition-all flex items-center gap-2 shadow-[0_10px_25px_rgba(var(--brand-color),0.2)]"
                 >
                   <Download size={16} /> Exportar PNG
                 </button>
@@ -72,55 +72,48 @@ export default function Home() {
             {/* Charts and Sidebar */}
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
               <div className="xl:col-span-3">
-                <ChartsSection daily={data?.daily} campaigns={data?.campaigns} />
+                <ChartsSection daily={data?.daily} campaigns={data?.campaigns} brand={brand} />
               </div>
 
               {/* Sidebar - Creative Champion */}
               <div className="flex flex-col gap-6">
                 <Card variant="glass" className="flex-1 overflow-hidden group">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-yellow-500/20 text-yellow-500 rounded-xl">
+                    <div className="p-2 bg-yellow-500/10 text-yellow-500 rounded-xl">
                       <Trophy size={20} />
                     </div>
                     <h3 className="font-heading text-lg font-bold">Criativo Campeão</h3>
                   </div>
 
                   <div className="flex flex-col gap-4">
-                    <div className="aspect-[4/5] bg-card-border/10 rounded-2xl overflow-hidden relative border border-card-border/20">
+                    <div className="aspect-[4/5] bg-white/5 rounded-2xl overflow-hidden relative border border-white/5 group-hover:border-brand/20 transition-colors">
                       {creativeUrl ? (
                         <img 
                           src={creativeUrl} 
                           alt="Champion Creative" 
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-brand/20">
-                          <Zap size={40} />
+                        <div className="w-full h-full flex items-center justify-center text-brand/10">
+                          <Zap size={48} className="animate-pulse" />
                         </div>
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
                       <div className="absolute bottom-4 left-4 right-4">
-                        <button className="w-full py-2 bg-brand/10 backdrop-blur-md border border-brand/20 text-foreground rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-brand/20 transition-colors">
-                          <ExternalLink size={14} /> Ver na Biblioteca
+                        <button className="w-full py-2.5 bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-xl font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-brand hover:text-black hover:border-brand transition-all duration-300">
+                          <ExternalLink size={14} /> Biblioteca de Anúncios
                         </button>
                       </div>
                     </div>
                     
-                    <div className="space-y-1 p-2">
-                      <p className="text-xs font-bold truncate">{bestAd?.name || "Buscando o melhor criativo..."}</p>
-                      <p className="text-[10px] text-foreground/40 uppercase font-bold tracking-widest">Melhor CTR da conta</p>
+                    <div className="space-y-1 px-1">
+                      <p className="text-xs font-bold truncate text-foreground/90">{bestAd?.name || "Buscando o melhor criativo..."}</p>
+                      <div className="flex items-center gap-2">
+                         <div className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
+                         <p className="text-[9px] text-foreground/40 uppercase font-bold tracking-widest">Melhor Performance da Conta</p>
+                      </div>
                     </div>
                   </div>
-                </Card>
-
-                <Card className="bg-brand/5 border-brand/20">
-                  <div className="flex items-center gap-2 text-brand mb-2">
-                    <TrendingUp size={16} />
-                    <span className="text-[10px] font-bold uppercase tracking-widest">{brand} Insight</span>
-                  </div>
-                  <p className="text-xs leading-relaxed text-foreground/70">
-                    O criativo acima está gerando um engajamento superior à média. Considere duplicar o público.
-                  </p>
                 </Card>
               </div>
             </div>

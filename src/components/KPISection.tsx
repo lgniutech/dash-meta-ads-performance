@@ -2,7 +2,7 @@
 
 import { 
   TrendingUp, Users, MousePointer2, ShoppingCart, Target, Percent, Eye, Activity, 
-  MessageSquare, Play, BarChart3, ArrowRight
+  MessageSquare, Play, BarChart3
 } from "lucide-react";
 import { Card } from "./ui/Card";
 import { fmtBRL, fmtNum, getActionValue, safeDiv } from "@/lib/utils";
@@ -52,14 +52,14 @@ export function KPISection({ data }: KPIProps) {
       {/* Primary Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-4">
         {primaryKpis.map((kpi) => (
-          <Card key={kpi.label} className="group hover:border-brand/40 transition-all duration-300">
+          <Card key={kpi.label} className="group transition-all duration-300">
             <div className="flex items-center justify-between mb-2">
-              <div className="p-2 bg-brand/10 text-brand rounded-xl group-hover:bg-brand group-hover:text-black transition-colors">
-                <kpi.icon size={18} />
+              <div className="p-2 text-brand transition-colors">
+                <kpi.icon size={22} />
               </div>
             </div>
             <p className="text-[10px] text-foreground/40 uppercase font-bold tracking-widest">{kpi.label}</p>
-            <h3 className="text-xl font-heading font-bold mt-1">
+            <h3 className="text-xl font-heading font-bold mt-1 text-foreground">
               {kpi.type === "currency" ? fmtBRL(kpi.value) : fmtNum(kpi.value)}
               {kpi.suffix}
             </h3>
@@ -101,14 +101,14 @@ export function KPISection({ data }: KPIProps) {
             </div>
           </div>
           
-          <div className="mt-8 pt-6 border-t border-card-border/30 flex items-center justify-between">
+          <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between">
             <div>
               <p className="text-[10px] text-foreground/40 uppercase font-bold">ThruPlays</p>
               <p className="text-2xl font-heading font-bold text-brand">{fmtNum(thruplays)}</p>
             </div>
             <div className="text-right">
               <p className="text-[10px] text-foreground/40 uppercase font-bold">Custo / ThruPlay</p>
-              <p className="text-2xl font-heading font-bold">{fmtBRL(safeDiv(spend, thruplays))}</p>
+              <p className="text-2xl font-heading font-bold text-foreground">{fmtBRL(safeDiv(spend, thruplays))}</p>
             </div>
           </div>
         </Card>
@@ -121,16 +121,16 @@ function FunnelStep({ label, value, total, icon, highlight = false }: any) {
   const percentage = Math.min(100, safeDiv(value, total) * 100);
   return (
     <div className="space-y-1.5">
-      <div className="flex items-center justify-between text-xs font-bold uppercase tracking-widest">
+      <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
         <div className="flex items-center gap-2">
-          <span className={highlight ? 'text-brand' : 'text-foreground/60'}>{icon}</span>
-          <span className={highlight ? 'text-brand' : ''}>{label}</span>
+          <span className="text-brand">{icon}</span>
+          <span className={highlight ? 'text-brand' : 'text-foreground/70'}>{label}</span>
         </div>
-        <span>{fmtNum(value)} <span className="text-foreground/30 ml-2 font-medium">({percentage.toFixed(1)}%)</span></span>
+        <span className="text-foreground/80">{fmtNum(value)} <span className="text-foreground/30 ml-2 font-medium">({percentage.toFixed(1)}%)</span></span>
       </div>
-      <div className="h-1.5 bg-card-border/30 rounded-full overflow-hidden">
+      <div className="h-1 bg-white/5 rounded-full overflow-hidden">
         <div 
-          className={`h-full rounded-full transition-all duration-1000 ${highlight ? 'bg-brand' : 'bg-brand/40'}`} 
+          className={`h-full rounded-full transition-all duration-1000 ${highlight ? 'bg-brand' : 'bg-brand/30'}`} 
           style={{ width: `${percentage}%` }}
         />
       </div>
@@ -143,11 +143,11 @@ function RetentionMetric({ label, value, total }: any) {
   return (
     <div>
       <div className="flex items-center justify-between mb-1">
-        <span className="text-[10px] font-bold text-foreground/50 uppercase">{label}</span>
-        <span className="text-[10px] font-bold text-brand">{percentage.toFixed(1)}%</span>
+        <span className="text-[9px] font-bold text-foreground/40 uppercase">{label}</span>
+        <span className="text-[9px] font-bold text-brand">{percentage.toFixed(1)}%</span>
       </div>
-      <div className="h-1 bg-card-border/30 rounded-full">
-        <div className="h-full bg-brand rounded-full" style={{ width: `${percentage}%` }} />
+      <div className="h-1 bg-white/5 rounded-full">
+        <div className="h-full bg-brand rounded-full transition-all duration-1000" style={{ width: `${percentage}%` }} />
       </div>
     </div>
   );

@@ -34,22 +34,27 @@ export function Navbar({
     <nav className="flex items-center justify-between px-8 py-4 bg-background/80 backdrop-blur-md sticky top-0 z-50 no-export transition-all duration-500">
       <div className="flex items-center gap-6">
         {/* Logo and Brand Toggle */}
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center text-black font-bold text-lg transition-colors duration-500 shadow-lg shadow-brand/20">
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 bg-brand rounded-xl flex items-center justify-center text-black font-bold text-xl transition-all duration-500 shadow-[0_0_20px_rgba(var(--brand-color),0.4)]">
               {brand === 'weniu' ? '◆' : '●'}
             </div>
-            <span className="font-heading text-xl font-bold tracking-tight uppercase">
-              Relatório {brand}
-            </span>
+            <div className="flex flex-col">
+              <span className="font-heading text-lg font-bold tracking-tight uppercase leading-none">
+                Relatório {brand}
+              </span>
+              <span className="text-[8px] uppercase tracking-[0.2em] font-bold text-foreground/40 mt-1">
+                Performance Control
+              </span>
+            </div>
           </div>
 
           <button 
             onClick={onBrandToggle}
-            className="flex items-center gap-2 px-3 py-1.5 bg-brand/10 border border-brand/20 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-brand/20 transition-all group"
+            className="flex items-center gap-2 px-4 py-1.5 bg-white/5 hover:bg-brand/20 rounded-full text-[9px] font-bold uppercase tracking-widest transition-all group border border-white/5 hover:border-brand/40"
           >
-            <RefreshCw size={12} className="group-hover:rotate-180 transition-transform duration-500" />
-            Switch to {brand === 'weniu' ? 'weeat' : 'weniu'}
+            <RefreshCw size={12} className="group-hover:rotate-180 transition-transform duration-500 text-brand" />
+            Alterar Marca
           </button>
         </div>
 
@@ -73,7 +78,7 @@ export function Navbar({
         />
 
         <button className="p-2 hover:bg-white/5 rounded-xl transition-colors">
-          <Search size={20} className="text-foreground/30" />
+          <Search size={20} className="text-foreground/20" />
         </button>
       </div>
     </nav>
