@@ -49,14 +49,14 @@ export function KPISection({ data, brand, mode }: KPIProps) {
   const p75 = getActionValue(data?.video_p75_watched_actions, "video_view");
   const p100 = getActionValue(data?.video_p100_watched_actions, "video_view");
 
-  // Dynamic KPIs based on mode
+  // Dynamic KPIs based on mode - UPDATED ORDER FOR FOOD
   const primaryKpis = mode === 'food' ? [
     { label: "Investimento", value: spend, icon: TrendingUp, type: "currency" },
-    { label: "Impressões", value: impressions, icon: Users, type: "number" },
     { label: "Faturamento", value: revenue, icon: Banknote, type: "currency" },
+    { label: "ROAS", value: roas.toFixed(2), icon: Percent, type: "number", suffix: "x" },
     { label: "Resultados", value: totalConversions, icon: ShoppingCart, type: "number" },
     { label: "Custo / Res", value: cpa, icon: Target, type: "currency" },
-    { label: "ROAS", value: roas.toFixed(2), icon: Percent, type: "number", suffix: "x" },
+    { label: "Impressões", value: impressions, icon: Users, type: "number" },
   ] : [
     { label: "Investimento", value: spend, icon: TrendingUp, type: "currency" },
     { label: "Impressões", value: impressions, icon: Users, type: "number" },
