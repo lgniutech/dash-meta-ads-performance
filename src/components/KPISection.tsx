@@ -2,7 +2,7 @@
 
 import { 
   TrendingUp, Users, MousePointer2, ShoppingCart, Target, Percent, Eye, Activity, 
-  MessageSquare, Play, BarChart3, Banknote, MessageCircle
+  MessageSquare, Play, BarChart3, Banknote, MessageCircle, MousePointer
 } from "lucide-react";
 import { Card } from "./ui/Card";
 import { fmtBRL, fmtNum, getActionValue, safeDiv } from "@/lib/utils";
@@ -21,8 +21,9 @@ export function KPISection({ data, brand, mode }: KPIProps) {
   const clicks = parseInt(data?.clicks || 0);
   const reach = parseInt(data?.reach || 0);
   const frequency = parseFloat(data?.frequency || 0);
+  const ctr = parseFloat(data?.ctr || 0);
   
-  // Conversion Metrics - Using multiple action types for robustness
+  // Conversion Metrics
   const purchases = getActionValue(data?.actions, ["purchase", "offsite_conversion.fb_pixel_purchase", "onsite_web_purchase"]);
   const leads = getActionValue(data?.actions, ["lead", "offsite_conversion.fb_pixel_lead"]);
   const msgs = getActionValue(data?.actions, ["onsite_conversion.messaging_conversation_started_7d", "messaging_conversation_started_7d"]);
@@ -36,35 +37,26 @@ export function KPISection({ data, brand, mode }: KPIProps) {
     lpViews = getActionValue(data?.actions, ["view_content", "offsite_conversion.fb_pixel_view_content"]);
   }
   
-  const totalConversions = mode === 'message' ? msgs : (purchases + leads + msgs);
-  
+  const totalConversions = purchases + leads + msgs;
   const cpa = safeDiv(spend, totalConversions);
   const roas = safeDiv(revenue, spend);
-  const cpm = safeDiv(spend, impressions) * 1000; // Fixed typo from msions
-  const cpm_val = parseFloat(data?.cpm || 0);
   const costPerMsg = safeDiv(spend, msgs);
 
-  // Video Metrics
-  const thruplays = getActionValue(data?.video_thruplay_watched_actions, "video_view");
-  const p25 = getActionValue(data?.video_p25_watched_actions, "video_view");
-  const p50 = getActionValue(data?.video_p50_watched_actions, "video_view");
-  const p75 = getActionValue(data?.video_p75_watched_actions, "video_view");
-  const p100 = getActionValue(data?.video_p100_watched_actions, "video_view");
-
-  // Dynamic KPIs based on mode
-  const primaryKpis = [
+  // Dynamic KPIs based on mode - ELIMINATING REDUNDANCY
+  const primaryKpis = mode === 'food' ? [
     { label: "Investimento", value: spend, icon: TrendingUp, type: "currency" },
     { label: "Impressões", value: impressions, icon: Users, type: "number" },
-    // Slot 3: Faturamento vs Iniciadas
-    mode === 'food' 
-      ? { label: "Faturamento", value: revenue, icon: Banknote, type: "currency" }
-      : { label: "Iniciadas", value: msgs, icon: MessageCircle, type: "number" },
+    { label: "Faturamento", value: revenue, icon: Banknote, type: "currency" },
     { label: "Resultados", value: totalConversions, icon: ShoppingCart, type: "number" },
     { label: "Custo / Res", value: cpa, icon: Target, type: "currency" },
-    // Slot 6: ROAS vs Custo / Msg
-    mode === 'food'
-      ? { label: "ROAS", value: roas.toFixed(2), icon: Percent, type: "number", suffix: "x" }
-      : { label: "Custo / Msg", value: costPerMsg, icon: MessageSquare, type: "currency" },
+    { label: "ROAS", value: roas.toFixed(2), icon: Percent, type: "number", suffix: "x" },
+  ] : [
+    { label: "Investimento", value: spend, icon: TrendingUp, type: "currency" },
+    { label: "Impressões", value: impressions, icon: Users, type: "number" },
+    { label: "Iniciadas", value: msgs, icon: MessageCircle, type: "number" },
+    { label: "Cliques (Link)", value: clicks, icon: MousePointer, type: "number" },
+    { label: "CTR", value: ctr.toFixed(2), icon: Percent, type: "number", suffix: "%" },
+    { label: "Custo / Msg", value: costPerMsg, icon: MessageSquare, type: "currency" },
   ];
 
   return (
@@ -101,7 +93,7 @@ export function KPISection({ data, brand, mode }: KPIProps) {
             {mode === 'food' && <FunnelStep label="Landing Page" value={lpViews} total={clicks} icon={<Eye size={14}/>} brandColor={brandColor} />}
             <FunnelStep 
               label={mode === 'food' ? "Resultados" : "Contatos WhatsApp"} 
-              value={totalConversions} 
+              value={mode === 'food' ? totalConversions : msgs} 
               total={mode === 'food' ? lpViews || clicks : clicks} 
               icon={<MessageSquare size={14}/>} 
               highlight 
