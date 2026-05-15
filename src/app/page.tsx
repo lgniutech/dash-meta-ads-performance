@@ -18,11 +18,9 @@ export default function Home() {
       return !node.classList?.contains("no-export");
     };
 
-    const bgColor = brand === 'weniu' ? "#000000" : "#fbf3e8";
-
     toPng(node, { 
       cacheBust: true, 
-      backgroundColor: bgColor,
+      backgroundColor: "#060e0e",
       filter: filter as any
     })
       .then((dataUrl) => {

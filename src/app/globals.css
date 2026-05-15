@@ -4,12 +4,12 @@
   --font-sans: "Poppins", sans-serif;
   --font-heading: "Outfit", sans-serif;
 
-  /* Default Weniu (Dark) */
+  /* Global Theme Variables */
   --color-brand: var(--brand-color, #03D967);
-  --color-background: var(--bg-color, #000000);
-  --color-foreground: var(--text-color, #DCEFF6);
-  --color-card: var(--card-color, #001B5E);
-  --color-card-border: var(--border-color, #002492);
+  --color-background: #060e0e; /* Deep Dark Blue/Black */
+  --color-foreground: #DCEFF6;
+  --color-card: var(--card-color, rgba(0, 27, 94, 0.4));
+  --color-card-border: transparent; /* No borders as requested */
 }
 
 @layer base {
@@ -18,34 +18,30 @@
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   }
 
-  /* Weniu Theme */
+  /* Weniu Theme - Green Accents */
   .theme-weniu {
     --brand-color: #03D967;
-    --bg-color: #000000;
-    --text-color: #DCEFF6;
-    --card-color: #001B5E;
-    --border-color: #002492;
+    --card-color: rgba(0, 27, 94, 0.3);
   }
 
-  /* WeeAt Theme */
+  /* WeeAt Theme - Orange Accents */
   .theme-weeat {
     --brand-color: #f39424;
-    --bg-color: #fbf3e8;
-    --text-color: #4a3000;
-    --card-color: #ffffff;
-    --border-color: #f4cc8c;
+    --card-color: rgba(40, 20, 0, 0.3); /* Darker orange tint for card */
   }
 }
 
 @layer utilities {
   .glass-card {
-    @apply backdrop-blur-xl border border-card-border/30 rounded-3xl shadow-2xl;
-    background-color: color-mix(in srgb, var(--card-color), transparent 60%);
+    @apply backdrop-blur-2xl rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)];
+    background-color: var(--card-color);
+    border: none;
   }
   
   .bento-card {
-    @apply border border-card-border/20 rounded-3xl p-6 transition-all duration-300 hover:border-brand/40 shadow-lg;
+    @apply rounded-3xl p-6 transition-all duration-300 hover:scale-[1.01] shadow-[0_10px_30px_rgba(0,0,0,0.3)];
     background-color: var(--card-color);
+    border: none;
   }
 }
 
@@ -54,9 +50,12 @@
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-color);
+  background: #060e0e;
 }
 ::-webkit-scrollbar-thumb {
   background: var(--brand-color);
   border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
 }
