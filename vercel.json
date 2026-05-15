@@ -1,6 +1,5 @@
 {
   "framework": "nextjs",
   "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "ignore": ["legacy-v1-python/**"]
+  "outputDirectory": ".next"
 }
