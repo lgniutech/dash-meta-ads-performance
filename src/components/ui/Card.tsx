@@ -25,8 +25,8 @@ export function Card({
   return (
     <Component
       initial={animate ? { opacity: 0, y: 20 } : undefined}
-      whileInView={animate ? { opacity: 1, y: 0 } : undefined}
-      viewport={{ once: true }}
+      animate={animate ? { opacity: 1, y: 0 } : undefined}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className={cn(
         "rounded-3xl p-6",
         variant === "default" && "bg-card border border-card-border",
