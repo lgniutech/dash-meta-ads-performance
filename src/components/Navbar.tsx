@@ -1,21 +1,26 @@
 "use client";
 
-import { Calendar, ChevronDown, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { AccountSelector } from "./AccountSelector";
 import { CampaignSelector } from "./CampaignSelector";
+import { DateSelector } from "./DateSelector";
 
 interface NavbarProps {
   onAccountChange: (id: string) => void;
   campaigns: any[];
   selectedCampaigns: string[];
   onCampaignChange: (ids: string[]) => void;
+  datePreset: string;
+  onDateChange: (v: string) => void;
 }
 
 export function Navbar({ 
   onAccountChange, 
   campaigns, 
   selectedCampaigns, 
-  onCampaignChange 
+  onCampaignChange,
+  datePreset,
+  onDateChange
 }: NavbarProps) {
   return (
     <nav className="flex items-center justify-between px-8 py-4 bg-[#060e0e] border-b border-card-border sticky top-0 z-50">
@@ -40,12 +45,7 @@ export function Navbar({
       </div>
 
       <div className="flex items-center gap-6">
-        {/* Date Picker Placeholder */}
-        <div className="flex items-center gap-3 px-4 py-2 bg-card border border-card-border rounded-2xl text-sm text-foreground/70">
-          <Calendar size={16} className="text-brand" />
-          <span>Últimos 30 dias</span>
-          <ChevronDown size={14} />
-        </div>
+        <DateSelector value={datePreset} onChange={onDateChange} />
 
         <button className="p-2 hover:bg-card rounded-xl transition-colors">
           <Search size={20} className="text-foreground/50" />

@@ -2,10 +2,23 @@
 
 import { MetaAdsAPI } from "./meta";
 
-const TOKEN = process.env.META_ACCESS_TOKEN || "";
+let TOKEN = process.env.META_ACCESS_TOKEN || "";
+
+// Clean JSON token if needed
+if (TOKEN.trim().startsWith("{")) {
+  try {
+    const parsed = JSON.parse(TOKEN);
+    TOKEN = parsed.access_token || TOKEN;
+  } catch (e) {
+    console.error("Error parsing JSON token:", e);
+  }
+}
 
 export async function getAccounts() {
-  if (!TOKEN) return [];
+  if (!TOKEN) {
+    console.error("META_ACCESS_TOKEN is missing!");
+    return [];
+  }
   const api = new MetaAdsAPI(TOKEN, "");
   return await api.getAdAccounts();
 }
