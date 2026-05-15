@@ -51,9 +51,6 @@ export default function Home() {
             >
               <div>
                 <h1 className="text-4xl font-heading font-extrabold tracking-tight uppercase">Relatório {brand}</h1>
-                <p className="text-foreground/40 mt-1 uppercase text-[10px] font-bold tracking-[0.3em]">
-                  {brand === 'weniu' ? 'Data-Driven Performance Command Center' : 'Growth & Nutrition Intelligence Hub'}
-                </p>
               </div>
               
               <div className="flex gap-4">

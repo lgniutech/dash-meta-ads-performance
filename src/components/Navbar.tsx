@@ -43,9 +43,6 @@ export function Navbar({
               <span className="font-heading text-lg font-bold tracking-tight uppercase leading-none">
                 Relatório {brand}
               </span>
-              <span className="text-[8px] uppercase tracking-[0.2em] font-bold text-foreground/40 mt-1">
-                Performance Control
-              </span>
             </div>
           </div>
 
