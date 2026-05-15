@@ -20,7 +20,7 @@ export default function Home() {
 
     toPng(node, { 
       cacheBust: true, 
-      backgroundColor: "#000000",
+      backgroundColor: "#ffffff",
       filter: filter as any
     })
       .then((dataUrl) => {

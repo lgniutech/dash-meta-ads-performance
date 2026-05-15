@@ -8,10 +8,11 @@
   --color-brand-muted: #004739; /* Dark green */
   --color-accent-blue: #002492; /* Blue */
   --color-accent-dark: #001B5E; /* Dark blue */
-  --color-background: #000000; /* Black */
-  --color-foreground: #DCEFF6; /* Gray text */
-  --color-card: #001B5E; /* Dark blue cards */
-  --color-card-border: #002492; /* Blue border */
+  
+  --color-background: #f8fafc; /* Soft White */
+  --color-foreground: #001B5E; /* Dark blue text */
+  --color-card: rgba(255, 255, 255, 0.7); /* Glass White */
+  --color-card-border: rgba(0, 36, 146, 0.1); /* Subtle Blue border */
 }
 
 @layer base {
@@ -23,23 +24,23 @@
 
 @layer utilities {
   .glass-card {
-    @apply bg-card/40 backdrop-blur-xl border border-card-border/30 rounded-3xl shadow-2xl;
+    @apply bg-white/60 backdrop-blur-2xl border border-white/40 rounded-3xl shadow-[0_20px_50px_rgba(0,27,94,0.12)];
   }
   
   .bento-card {
-    @apply bg-card border border-card-border/20 rounded-3xl p-6 transition-all duration-300 hover:border-brand/40;
+    @apply bg-white/80 backdrop-blur-lg border border-white/50 rounded-3xl p-6 transition-all duration-300 hover:shadow-[0_25px_60px_rgba(3,217,103,0.15)] shadow-[0_10px_30px_rgba(0,27,94,0.08)];
   }
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar for light mode */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: #f8fafc;
 }
 ::-webkit-scrollbar-thumb {
-  background: #001B5E;
+  background: #cbd5e1;
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
