@@ -54,7 +54,7 @@ export default function Home() {
                   src={`/logos/logo-${brand}.png`} 
                   alt={brand} 
                   className="h-14 w-auto object-contain transition-all duration-500" 
-                  style={{ filter: 'invert(1) hue-rotate(180deg) contrast(1.2)' }}
+                  style={{ filter: 'invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.2)' }}
                 />
                 <div className="flex items-center gap-2 mt-3">
                   <div className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />

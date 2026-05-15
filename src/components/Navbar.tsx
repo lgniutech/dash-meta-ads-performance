@@ -44,7 +44,7 @@ export function Navbar({
               src={`/logos/logo-${brand}.png`} 
               alt={brand} 
               className="h-7 w-auto object-contain transition-all duration-500" 
-              style={{ filter: 'invert(1) hue-rotate(180deg) contrast(1.2)' }}
+              style={{ filter: 'invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.2)' }}
             />
           </div>
 
