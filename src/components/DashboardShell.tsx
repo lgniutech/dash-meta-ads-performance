@@ -14,7 +14,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
   const [mode, setMode] = useState("food");
   const [accountId, setAccountId] = useState("");
   const [selectedCampaigns, setSelectedCampaigns] = useState<string[]>([]);
-  const [datePreset, setDatePreset] = useState("last_week_mon_sun");
+  const [datePreset, setDatePreset] = useState("this_month");
   const [customRange, setCustomRange] = useState({ since: "", until: "" });
 
   // Dashboard Data State (Mock or Fetch)
