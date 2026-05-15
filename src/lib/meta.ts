@@ -90,14 +90,30 @@ export class MetaAdsAPI {
 
   async getDailyInsights(params: Record<string, any> = {}) {
     try {
-      return await this.get<any[]>(`/${this.accountId}/insights`, {
-        fields: "spend,impressions,clicks,reach,actions,action_values,video_thruplay_watched_actions,3_second_video_plays",
+      const response = await this.get<any>(`/${this.accountId}/insights`, {
+        fields: "spend,impressions,clicks,reach,actions,action_values",
         level: "account",
         time_increment: 1,
         ...params,
       });
+      return response.data || [];
     } catch (error) {
       console.error("Error fetching daily insights:", error);
+      return [];
+    }
+  }
+
+  async getAudienceBreakdown(params: Record<string, any> = {}) {
+    try {
+      const response = await this.get<any>(`/${this.accountId}/insights`, {
+        fields: "spend,impressions,clicks,reach,actions,action_values",
+        level: "account",
+        breakdowns: "gender",
+        ...params,
+      });
+      return response.data || [];
+    } catch (error) {
+      console.error("Error fetching audience breakdown:", error);
       return [];
     }
   }
