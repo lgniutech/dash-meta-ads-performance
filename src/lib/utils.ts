@@ -16,10 +16,15 @@ export function getActionValue(actions: any[], types: string | string[]): number
   
   const typeList = Array.isArray(types) ? types : [types];
   
-  // Sum values for all requested types
+  // Identify the first type in the priority list that actually exists in the data
+  const bestType = typeList.find(type => actions.some((a: any) => a.action_type === type));
+  
+  if (!bestType) return 0;
+  
+  // Sum only the values for that specific best matching type to avoid double counting
   return actions
-    .filter((a: any) => typeList.includes(a.action_type))
-    .reduce((sum, a) => sum + parseInt(a.value || 0), 0);
+    .filter((a: any) => a.action_type === bestType)
+    .reduce((sum, a) => sum + parseFloat(a.value || 0), 0);
 }
 
 export function safeDiv(a: number, b: number): number {
