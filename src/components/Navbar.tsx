@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, RefreshCw, MessageSquare, UtensilsCrossed } from "lucide-react";
+import { Search, RefreshCw, MessageSquare, UtensilsCrossed, UserPlus } from "lucide-react";
 import { AccountSelector } from "./AccountSelector";
 import { CampaignSelector } from "./CampaignSelector";
 import { DateSelector } from "./DateSelector";
@@ -70,6 +70,12 @@ export function Navbar({
             className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${mode === 'message' ? 'bg-brand text-black shadow-lg shadow-brand/20' : 'text-foreground/40 hover:text-foreground'}`}
           >
             <MessageSquare size={12} /> Mensagens
+          </button>
+          <button 
+            onClick={() => onModeToggle('followers')}
+            className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${mode === 'followers' ? 'bg-brand text-black shadow-lg shadow-brand/20' : 'text-foreground/40 hover:text-foreground'}`}
+          >
+            <UserPlus size={12} /> Seguidores
           </button>
         </div>
 

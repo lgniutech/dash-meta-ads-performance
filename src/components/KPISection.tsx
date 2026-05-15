@@ -2,7 +2,7 @@
 
 import { 
   TrendingUp, Users, MousePointer2, ShoppingCart, Target, Percent, Eye, Activity, 
-  MessageSquare, Play, BarChart3, Banknote, MessageCircle, MousePointer
+  MessageSquare, Play, BarChart3, Banknote, MessageCircle, MousePointer, UserPlus, Instagram
 } from "lucide-react";
 import { Card } from "./ui/Card";
 import { fmtBRL, fmtNum, getActionValue, safeDiv } from "@/lib/utils";
@@ -22,6 +22,7 @@ export function KPISection({ data, brand, mode }: KPIProps) {
   const reach = parseInt(data?.reach || 0);
   const frequency = parseFloat(data?.frequency || 0);
   const ctr = parseFloat(data?.ctr || 0);
+  const followers = parseInt(data?.instagram_follows || 0);
   
   // Conversion Metrics
   const purchases = getActionValue(data?.actions, ["purchase", "offsite_conversion.fb_pixel_purchase", "onsite_web_purchase"]);
@@ -56,14 +57,21 @@ export function KPISection({ data, brand, mode }: KPIProps) {
     { label: "ROAS", value: roas.toFixed(2), icon: Percent, type: "number", suffix: "x" },
     { label: "Resultados", value: totalConversions, icon: ShoppingCart, type: "number" },
     { label: "Custo / Res", value: cpa, icon: Target, type: "currency" },
-    { label: "Impressões", value: impressions, icon: Users, type: "number" },
-  ] : [
+    { label: "Contas alcançadas", value: reach, icon: Users, type: "number" },
+  ] : mode === 'message' ? [
     { label: "Investimento", value: spend, icon: TrendingUp, type: "currency" },
     { label: "Impressões", value: impressions, icon: Users, type: "number" },
     { label: "Iniciadas", value: msgs, icon: MessageCircle, type: "number" },
     { label: "Cliques (Link)", value: clicks, icon: MousePointer, type: "number" },
     { label: "CTR", value: ctr.toFixed(2), icon: Percent, type: "number", suffix: "%" },
     { label: "Custo / Msg", value: costPerMsg, icon: MessageSquare, type: "currency" },
+  ] : [
+    { label: "Investimento", value: spend, icon: TrendingUp, type: "currency" },
+    { label: "Impressões", value: impressions, icon: Users, type: "number" },
+    { label: "Iniciadas", value: msgs, icon: MessageCircle, type: "number" },
+    { label: "Cliques (Link)", value: clicks, icon: MousePointer, type: "number" },
+    { label: "CTR", value: ctr.toFixed(2), icon: Percent, type: "number", suffix: "%" },
+    { label: "Seguidores no Instagram", value: followers, icon: Instagram, type: "number" },
   ];
 
   return (
@@ -99,10 +107,10 @@ export function KPISection({ data, brand, mode }: KPIProps) {
             <FunnelStep label="Cliques no Link" value={clicks} total={reach} icon={<MousePointer2 size={14}/>} brandColor={brandColor} />
             {mode === 'food' && <FunnelStep label="Landing Page" value={lpViews} total={clicks} icon={<Eye size={14}/>} brandColor={brandColor} />}
             <FunnelStep 
-              label={mode === 'food' ? "Resultados" : "Contatos WhatsApp"} 
-              value={mode === 'food' ? totalConversions : msgs} 
+              label={mode === 'food' ? "Resultados" : mode === 'followers' ? "Seguidores" : "Contatos WhatsApp"} 
+              value={mode === 'food' ? totalConversions : mode === 'followers' ? followers : msgs} 
               total={mode === 'food' ? lpViews || clicks : clicks} 
-              icon={<MessageSquare size={14}/>} 
+              icon={mode === 'followers' ? <UserPlus size={14}/> : <MessageSquare size={14}/>} 
               highlight 
               brandColor={brandColor} 
             />
