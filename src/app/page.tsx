@@ -48,7 +48,7 @@ export default function Home() {
             className="flex items-center justify-between"
           >
             <div>
-              <h1 className="text-4xl font-heading font-extrabold tracking-tight">Dashboard de Performance</h1>
+              <h1 className="text-4xl font-heading font-extrabold tracking-tight">Relatório weniu</h1>
               <p className="text-foreground/50 mt-1">Visão geral do desempenho das suas campanhas no Meta Ads</p>
             </div>
             

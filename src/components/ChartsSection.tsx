@@ -26,7 +26,7 @@ export function ChartsSection({ daily = [], campaigns = [] }: ChartsProps) {
     .map((c, i) => ({
       name: c.campaign_name,
       value: parseFloat(c.spend || 0),
-      color: ["#3ddb6e", "#10b981", "#064e3b", "#1a4040", "#0c2020"][i % 5]
+      color: ["#03D967", "#004739", "#002492", "#001B5E", "#DCEFF6"][i % 5]
     }));
 
   return (
@@ -47,22 +47,22 @@ export function ChartsSection({ daily = [], campaigns = [] }: ChartsProps) {
             <AreaChart data={dailyChartData}>
               <defs>
                 <linearGradient id="colorSpend" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3ddb6e" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#3ddb6e" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="#03D967" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#03D967" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#1a4040" />
-              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{fill: '#889999', fontSize: 10, fontWeight: 700}} />
-              <YAxis axisLine={false} tickLine={false} tick={{fill: '#889999', fontSize: 10, fontWeight: 700}} tickFormatter={(v) => `R$ ${v}`} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#002492" strokeOpacity={0.2} />
+              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{fill: '#DCEFF6', fontSize: 10, fontWeight: 700, opacity: 0.5}} />
+              <YAxis axisLine={false} tickLine={false} tick={{fill: '#DCEFF6', fontSize: 10, fontWeight: 700, opacity: 0.5}} tickFormatter={(v) => `R$ ${v}`} />
               <Tooltip 
-                contentStyle={{backgroundColor: '#0c2020', border: '1px solid #1a4040', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.5)'}}
-                itemStyle={{color: '#3ddb6e', fontWeight: 700}}
+                contentStyle={{backgroundColor: '#001B5E', border: '1px solid #002492', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.8)'}}
+                itemStyle={{color: '#03D967', fontWeight: 700}}
                 formatter={(v: any) => [fmtBRL(v), "Investimento"]}
               />
               <Area 
                 type="monotone" 
                 dataKey="spend" 
-                stroke="#3ddb6e" 
+                stroke="#03D967" 
                 strokeWidth={3}
                 fillOpacity={1} 
                 fill="url(#colorSpend)" 
@@ -94,13 +94,13 @@ export function ChartsSection({ daily = [], campaigns = [] }: ChartsProps) {
                 ))}
               </Pie>
               <Tooltip 
-                contentStyle={{backgroundColor: '#0c2020', border: '1px solid #1a4040', borderRadius: '16px'}}
+                contentStyle={{backgroundColor: '#001B5E', border: '1px solid #002492', borderRadius: '16px'}}
                 formatter={(v: any) => [fmtBRL(v), "Gasto"]}
               />
               <Legend 
                 verticalAlign="bottom" 
                 iconType="circle"
-                wrapperStyle={{fontSize: '10px', fontWeight: 700, paddingTop: '20px'}}
+                wrapperStyle={{fontSize: '10px', fontWeight: 700, paddingTop: '20px', color: '#DCEFF6'}}
               />
             </PieChart>
           </ResponsiveContainer>
