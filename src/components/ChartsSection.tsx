@@ -22,14 +22,17 @@ export function ChartsSection({ daily = [], campaigns = [], brand = 'weniu' }: C
   const primaryColor = brand === 'weniu' ? '#03D967' : '#f39424';
   const palette = PALETTES[brand] || PALETTES.weniu;
 
-  // Format daily data for Recharts
-  const dailyChartData = daily.map(d => ({
-    date: new Date(d.date_start).toLocaleDateString("pt-BR", { day: '2-digit', month: '2-digit' }),
-    spend: parseFloat(d.spend || 0),
-  })).reverse();
+  // Format daily data for Recharts - SORT BY DATE ASCENDING
+  const dailyChartData = [...daily]
+    .map(d => ({
+      dateStr: d.date_start,
+      date: new Date(d.date_start + 'T12:00:00').toLocaleDateString("pt-BR", { day: '2-digit', month: '2-digit' }),
+      spend: parseFloat(d.spend || 0),
+    }))
+    .sort((a, b) => a.dateStr.localeCompare(b.dateStr));
 
   // Format campaign data for Pie (Top 5)
-  const campaignChartData = campaigns
+  const campaignChartData = [...campaigns]
     .sort((a, b) => parseFloat(b.spend) - parseFloat(a.spend))
     .slice(0, 5)
     .map((c, i) => ({
@@ -61,8 +64,18 @@ export function ChartsSection({ daily = [], campaigns = [], brand = 'weniu' }: C
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ffffff" strokeOpacity={0.05} />
-              <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{fill: '#DCEFF6', fontSize: 10, fontWeight: 700, opacity: 0.3}} />
-              <YAxis axisLine={false} tickLine={false} tick={{fill: '#DCEFF6', fontSize: 10, fontWeight: 700, opacity: 0.3}} tickFormatter={(v) => `R$ ${v}`} />
+              <XAxis 
+                dataKey="date" 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{fill: '#DCEFF6', fontSize: 10, fontWeight: 700, opacity: 0.3}} 
+              />
+              <YAxis 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{fill: '#DCEFF6', fontSize: 10, fontWeight: 700, opacity: 0.3}} 
+                tickFormatter={(v) => `R$ ${v}`} 
+              />
               <Tooltip 
                 contentStyle={{backgroundColor: '#0f0f0f', border: 'none', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.8)'}}
                 itemStyle={{color: primaryColor, fontWeight: 700}}

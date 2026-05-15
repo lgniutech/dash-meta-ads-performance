@@ -21,18 +21,21 @@ export function KPISection({ data, brand }: KPIProps) {
   const reach = parseInt(data?.reach || 0);
   const frequency = parseFloat(data?.frequency || 0);
   
-  // Conversion Metrics
-  const purchases = getActionValue(data?.actions, "purchase");
-  const leads = getActionValue(data?.actions, "lead");
-  const msgs = getActionValue(data?.actions, "onsite_conversion.messaging_conversation_started_7d");
-  const landingPageViews = getActionValue(data?.actions, "landing_page_view");
+  // Conversion Metrics - Using multiple action types for robustness
+  const purchases = getActionValue(data?.actions, ["purchase", "offsite_conversion.fb_pixel_purchase", "onsite_web_purchase"]);
+  const leads = getActionValue(data?.actions, ["lead", "offsite_conversion.fb_pixel_lead"]);
+  const msgs = getActionValue(data?.actions, ["onsite_conversion.messaging_conversation_started_7d"]);
+  
+  // Landing Page fallback: if landing_page_view is 0, try view_content or outbound_clicks
+  let lpViews = getActionValue(data?.actions, ["landing_page_view", "omni_landing_page_view"]);
+  if (lpViews === 0) {
+    lpViews = getActionValue(data?.actions, ["view_content", "offsite_conversion.fb_pixel_view_content"]);
+  }
   
   const totalConversions = purchases + leads + msgs;
   
   const cpa = safeDiv(spend, totalConversions);
-  const roas = getActionValue(data?.action_values, "purchase") / (spend || 1);
-  const ctr = (clicks / (impressions || 1)) * 100;
-  const cpc = safeDiv(spend, clicks);
+  const roas = getActionValue(data?.action_values, ["purchase", "offsite_conversion.fb_pixel_purchase"]) / (spend || 1);
 
   // Video Metrics
   const thruplays = getActionValue(data?.video_thruplay_watched_actions, "video_view");
@@ -52,7 +55,6 @@ export function KPISection({ data, brand }: KPIProps) {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Primary Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-4">
         {primaryKpis.map((kpi) => (
           <Card key={kpi.label} className="group transition-all duration-300">
@@ -81,8 +83,8 @@ export function KPISection({ data, brand }: KPIProps) {
           <div className="space-y-4">
             <FunnelStep label="Alcance" value={reach} total={reach} icon={<Users size={14}/>} brandColor={brandColor} />
             <FunnelStep label="Cliques no Link" value={clicks} total={reach} icon={<MousePointer2 size={14}/>} brandColor={brandColor} />
-            <FunnelStep label="Landing Page" value={landingPageViews} total={clicks} icon={<Eye size={14}/>} brandColor={brandColor} />
-            <FunnelStep label="Resultados" value={totalConversions} total={landingPageViews} icon={<MessageSquare size={14}/>} highlight brandColor={brandColor} />
+            <FunnelStep label="Landing Page" value={lpViews} total={clicks} icon={<Eye size={14}/>} brandColor={brandColor} />
+            <FunnelStep label="Resultados" value={totalConversions} total={lpViews || clicks} icon={<MessageSquare size={14}/>} highlight brandColor={brandColor} />
           </div>
         </Card>
 
