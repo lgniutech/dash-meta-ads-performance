@@ -22,14 +22,29 @@ export function ChartsSection({ daily = [], campaigns = [], brand = 'weniu' }: C
   const primaryColor = brand === 'weniu' ? '#03D967' : '#f39424';
   const palette = PALETTES[brand] || PALETTES.weniu;
 
-  // Format daily data for Recharts - SORT BY DATE ASCENDING
-  const dailyChartData = [...daily]
-    .map(d => ({
-      dateStr: d.date_start,
-      date: new Date(d.date_start + 'T12:00:00').toLocaleDateString("pt-BR", { day: '2-digit', month: '2-digit' }),
-      spend: parseFloat(d.spend || 0),
-    }))
-    .sort((a, b) => a.dateStr.localeCompare(b.dateStr));
+  // Generate full 30-day timeline to avoid gaps in May
+  const generateFullTimeline = () => {
+    const dataMap = new Map(daily.map(d => [d.date_start, d]));
+    const timeline = [];
+    
+    // Go back 30 days from today
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const isoDate = d.toISOString().split('T')[0];
+      const displayDate = d.toLocaleDateString("pt-BR", { day: '2-digit', month: '2-digit' });
+      
+      const existingData = dataMap.get(isoDate);
+      timeline.push({
+        date: displayDate,
+        dateStr: isoDate,
+        spend: existingData ? parseFloat(existingData.spend || 0) : 0
+      });
+    }
+    return timeline;
+  };
+
+  const dailyChartData = generateFullTimeline();
 
   // Format campaign data for Pie (Top 5)
   const campaignChartData = [...campaigns]
