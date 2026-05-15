@@ -52,7 +52,7 @@ export class MetaAdsAPI {
   async getAdAccounts() {
     try {
       const response = await this.get<any>("/me/adaccounts", {
-        fields: "id,name,account_status,business_name,currency,owner_business",
+        fields: "id,name,account_status,business_name",
         limit: 100,
       });
       return response.data || [];
