@@ -59,7 +59,7 @@ export default function Home() {
               <div className="flex gap-4">
                 <button 
                   onClick={() => handleExport(brand)}
-                  className="px-6 py-2.5 bg-brand text-black rounded-2xl font-bold text-sm hover:scale-105 transition-all flex items-center gap-2 shadow-[0_10px_25px_rgba(var(--brand-color),0.2)]"
+                  className="no-export px-6 py-2.5 bg-brand text-black rounded-2xl font-bold text-sm hover:scale-105 transition-all flex items-center gap-2 shadow-[0_10px_25px_rgba(var(--brand-color),0.2)]"
                 >
                   <Download size={16} /> Exportar PNG
                 </button>
