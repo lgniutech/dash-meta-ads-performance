@@ -99,11 +99,6 @@ export default function Home() {
                         </div>
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <button className="w-full py-2.5 bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-xl font-bold text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-brand hover:text-black hover:border-brand transition-all duration-300">
-                          <ExternalLink size={14} /> Biblioteca de Anúncios
-                        </button>
-                      </div>
                     </div>
                     
                     <div className="space-y-1 px-1">
