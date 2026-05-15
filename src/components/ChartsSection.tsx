@@ -22,24 +22,35 @@ export function ChartsSection({ daily = [], campaigns = [], brand = 'weniu' }: C
   const primaryColor = brand === 'weniu' ? '#03D967' : '#f39424';
   const palette = PALETTES[brand] || PALETTES.weniu;
 
-  // Generate full 30-day timeline to avoid gaps in May
+  // Generate timeline based on data range
   const generateFullTimeline = () => {
-    const dataMap = new Map(daily.map(d => [d.date_start, d]));
-    const timeline = [];
+    if (daily.length === 0) return [];
     
-    for (let i = 29; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      const isoDate = d.toISOString().split('T')[0];
-      const displayDate = d.toLocaleDateString("pt-BR", { day: '2-digit', month: '2-digit' });
+    // Get min and max dates from daily data
+    const dates = daily.map(d => new Date(d.date_start).getTime());
+    const minDate = new Date(Math.min(...dates));
+    const maxDate = new Date(Math.max(...dates));
+    
+    const timeline = [];
+    let current = new Date(minDate);
+    
+    while (current <= maxDate) {
+      const isoDate = current.toISOString().split('T')[0];
+      const displayDate = current.toLocaleDateString("pt-BR", { day: '2-digit', month: '2-digit' });
       
-      const existingData = dataMap.get(isoDate);
+      const existingData = daily.find(d => d.date_start === isoDate);
       timeline.push({
         date: displayDate,
         dateStr: isoDate,
         spend: existingData ? parseFloat(existingData.spend || 0) : 0
       });
+      
+      current.setDate(current.getDate() + 1);
     }
+    
+    // If only one day or very short range, ensure at least 7 days for better visualization if possible
+    // But for "This Month", we follow the data.
+    
     return timeline;
   };
 
