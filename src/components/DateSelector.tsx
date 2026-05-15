@@ -6,6 +6,7 @@ import { Calendar, ChevronDown, Check } from "lucide-react";
 const OPTIONS = [
   { label: "Hoje", value: "today" },
   { label: "Ontem", value: "yesterday" },
+  { label: "Semana Passada (Seg-Dom)", value: "last_week_mon_sun" },
   { label: "Últimos 7 dias", value: "last_7d" },
   { label: "Últimos 30 dias", value: "last_30d" },
   { label: "Este mês", value: "this_month" },
