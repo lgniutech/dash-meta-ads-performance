@@ -9,9 +9,12 @@ import { fmtBRL, fmtNum, getActionValue, safeDiv } from "@/lib/utils";
 
 interface KPIProps {
   data: any;
+  brand: string;
 }
 
-export function KPISection({ data }: KPIProps) {
+export function KPISection({ data, brand }: KPIProps) {
+  const brandColor = brand === 'weniu' ? '#03D967' : '#f39424';
+
   const spend = parseFloat(data?.spend || 0);
   const impressions = parseInt(data?.impressions || 0);
   const clicks = parseInt(data?.clicks || 0);
@@ -54,7 +57,7 @@ export function KPISection({ data }: KPIProps) {
         {primaryKpis.map((kpi) => (
           <Card key={kpi.label} className="group transition-all duration-300">
             <div className="flex items-center justify-between mb-2">
-              <div className="p-2 text-brand transition-colors">
+              <div className="p-2 transition-colors" style={{ color: brandColor }}>
                 <kpi.icon size={22} />
               </div>
             </div>
@@ -71,40 +74,40 @@ export function KPISection({ data }: KPIProps) {
         {/* Conversion Funnel */}
         <Card variant="glass" className="p-6">
           <div className="flex items-center gap-3 mb-6">
-            <BarChart3 size={20} className="text-brand" />
+            <BarChart3 size={20} style={{ color: brandColor }} />
             <h3 className="font-heading text-lg font-bold">Funil de Conversão</h3>
           </div>
           
           <div className="space-y-4">
-            <FunnelStep label="Alcance" value={reach} total={reach} icon={<Users size={14}/>} />
-            <FunnelStep label="Cliques no Link" value={clicks} total={reach} icon={<MousePointer2 size={14}/>} />
-            <FunnelStep label="Landing Page" value={landingPageViews} total={clicks} icon={<Eye size={14}/>} />
-            <FunnelStep label="Resultados" value={totalConversions} total={landingPageViews} icon={<MessageSquare size={14}/>} highlight />
+            <FunnelStep label="Alcance" value={reach} total={reach} icon={<Users size={14}/>} brandColor={brandColor} />
+            <FunnelStep label="Cliques no Link" value={clicks} total={reach} icon={<MousePointer2 size={14}/>} brandColor={brandColor} />
+            <FunnelStep label="Landing Page" value={landingPageViews} total={clicks} icon={<Eye size={14}/>} brandColor={brandColor} />
+            <FunnelStep label="Resultados" value={totalConversions} total={landingPageViews} icon={<MessageSquare size={14}/>} highlight brandColor={brandColor} />
           </div>
         </Card>
 
         {/* Video Retention */}
         <Card variant="glass" className="p-6">
           <div className="flex items-center gap-3 mb-6">
-            <Play size={20} className="text-brand" />
+            <Play size={20} style={{ color: brandColor }} />
             <h3 className="font-heading text-lg font-bold">Retenção de Vídeo</h3>
           </div>
           
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-4">
-              <RetentionMetric label="25%" value={p25} total={impressions} />
-              <RetentionMetric label="50%" value={p50} total={impressions} />
+              <RetentionMetric label="25%" value={p25} total={impressions} brandColor={brandColor} />
+              <RetentionMetric label="50%" value={p50} total={impressions} brandColor={brandColor} />
             </div>
             <div className="space-y-4">
-              <RetentionMetric label="75%" value={p75} total={impressions} />
-              <RetentionMetric label="100%" value={p100} total={impressions} />
+              <RetentionMetric label="75%" value={p75} total={impressions} brandColor={brandColor} />
+              <RetentionMetric label="100%" value={p100} total={impressions} brandColor={brandColor} />
             </div>
           </div>
           
           <div className="mt-8 pt-6 border-t border-white/5 flex items-center justify-between">
             <div>
               <p className="text-[10px] text-foreground/40 uppercase font-bold">ThruPlays</p>
-              <p className="text-2xl font-heading font-bold text-brand">{fmtNum(thruplays)}</p>
+              <p className="text-2xl font-heading font-bold" style={{ color: brandColor }}>{fmtNum(thruplays)}</p>
             </div>
             <div className="text-right">
               <p className="text-[10px] text-foreground/40 uppercase font-bold">Custo / ThruPlay</p>
@@ -117,37 +120,37 @@ export function KPISection({ data }: KPIProps) {
   );
 }
 
-function FunnelStep({ label, value, total, icon, highlight = false }: any) {
+function FunnelStep({ label, value, total, icon, highlight = false, brandColor }: any) {
   const percentage = Math.min(100, safeDiv(value, total) * 100);
   return (
     <div className="space-y-1.5">
       <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest">
         <div className="flex items-center gap-2">
-          <span className="text-brand">{icon}</span>
-          <span className={highlight ? 'text-brand' : 'text-foreground/70'}>{label}</span>
+          <span style={{ color: brandColor }}>{icon}</span>
+          <span className={highlight ? '' : 'text-foreground/70'} style={highlight ? { color: brandColor } : {}}>{label}</span>
         </div>
         <span className="text-foreground/80">{fmtNum(value)} <span className="text-foreground/30 ml-2 font-medium">({percentage.toFixed(1)}%)</span></span>
       </div>
       <div className="h-1 bg-white/5 rounded-full overflow-hidden">
         <div 
-          className={`h-full rounded-full transition-all duration-1000 ${highlight ? 'bg-brand' : 'bg-brand/30'}`} 
-          style={{ width: `${percentage}%` }}
+          className="h-full rounded-full transition-all duration-1000" 
+          style={{ width: `${percentage}%`, backgroundColor: highlight ? brandColor : `${brandColor}4D` }}
         />
       </div>
     </div>
   );
 }
 
-function RetentionMetric({ label, value, total }: any) {
+function RetentionMetric({ label, value, total, brandColor }: any) {
   const percentage = Math.min(100, safeDiv(value, total) * 100);
   return (
     <div>
       <div className="flex items-center justify-between mb-1">
         <span className="text-[9px] font-bold text-foreground/40 uppercase">{label}</span>
-        <span className="text-[9px] font-bold text-brand">{percentage.toFixed(1)}%</span>
+        <span className="text-[9px] font-bold" style={{ color: brandColor }}>{percentage.toFixed(1)}%</span>
       </div>
       <div className="h-1 bg-white/5 rounded-full">
-        <div className="h-full bg-brand rounded-full transition-all duration-1000" style={{ width: `${percentage}%` }} />
+        <div className="h-full rounded-full transition-all duration-1000" style={{ width: `${percentage}%`, backgroundColor: brandColor }} />
       </div>
     </div>
   );

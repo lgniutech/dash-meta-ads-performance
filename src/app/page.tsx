@@ -67,7 +67,7 @@ export default function Home() {
             </motion.div>
 
             {/* KPIs and Funnel */}
-            <KPISection data={data?.summary} />
+            <KPISection data={data?.summary} brand={brand} />
 
             {/* Charts and Sidebar */}
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
