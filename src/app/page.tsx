@@ -5,7 +5,7 @@ import { KPISection } from "@/components/KPISection";
 import { ChartsSection } from "@/components/ChartsSection";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/Card";
-import { Trophy, Zap, Download, ExternalLink } from "lucide-react";
+import { Trophy, Zap, Download } from "lucide-react";
 import { toPng } from "html-to-image";
 import { useCallback } from "react";
 
@@ -43,15 +43,20 @@ export default function Home() {
 
         return (
           <div className="flex flex-col gap-8">
-            {/* Header Title */}
+            {/* Header Title with Logo */}
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               className="flex items-center justify-between"
             >
               <div>
-                <h1 className="text-4xl font-heading font-extrabold tracking-tight uppercase">Relatório {brand}</h1>
-                <div className="flex items-center gap-2 mt-1">
+                <img 
+                  src={`/logos/logo-${brand}.png`} 
+                  alt={brand} 
+                  className="h-14 w-auto object-contain transition-all duration-500 brightness-0 invert" 
+                  style={{ filter: 'brightness(0) invert(1)' }}
+                />
+                <div className="flex items-center gap-2 mt-3">
                   <div className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
                   <p className="text-foreground/40 uppercase text-[10px] font-bold tracking-[0.3em]">
                     Modo: {mode === 'food' ? 'Food & Delivery' : 'Mensagens & WhatsApp'}

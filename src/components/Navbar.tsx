@@ -40,14 +40,12 @@ export function Navbar({
         {/* Logo and Brand Toggle */}
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-brand rounded-xl flex items-center justify-center text-black font-bold text-xl transition-all duration-500 shadow-[0_0_20px_rgba(var(--brand-color),0.4)]">
-              {brand === 'weniu' ? '◆' : '●'}
-            </div>
-            <div className="flex flex-col">
-              <span className="font-heading text-lg font-bold tracking-tight uppercase leading-none">
-                Relatório {brand}
-              </span>
-            </div>
+            <img 
+              src={`/logos/logo-${brand}.png`} 
+              alt={brand} 
+              className="h-7 w-auto object-contain transition-all duration-500 brightness-0 invert" 
+              style={{ filter: 'brightness(0) invert(1)' }}
+            />
           </div>
 
           <button 
@@ -89,12 +87,14 @@ export function Navbar({
       </div>
 
       <div className="flex items-center gap-6">
-        <DateSelector 
-          value={datePreset} 
-          onChange={onDateChange} 
-          customRange={customRange}
-          onCustomChange={onCustomChange}
-        />
+        <div className="flex items-center gap-6 pr-4">
+           <DateSelector 
+            value={datePreset} 
+            onChange={onDateChange} 
+            customRange={customRange}
+            onCustomChange={onCustomChange}
+          />
+        </div>
 
         <button className="p-2 hover:bg-white/5 rounded-xl transition-colors">
           <Search size={20} className="text-foreground/20" />
