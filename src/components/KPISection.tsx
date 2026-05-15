@@ -27,6 +27,7 @@ export function KPISection({ data, brand, mode }: KPIProps) {
   const purchases = getActionValue(data?.actions, ["purchase", "offsite_conversion.fb_pixel_purchase", "onsite_web_purchase"]);
   const leads = getActionValue(data?.actions, ["lead", "offsite_conversion.fb_pixel_lead"]);
   const msgs = getActionValue(data?.actions, [
+    "onsite_conversion.total_messaging_connection",
     "onsite_conversion.messaging_conversation_started_7d", 
     "onsite_conversion.messaging_first_reply",
     "messaging_conversation_started_7d",
