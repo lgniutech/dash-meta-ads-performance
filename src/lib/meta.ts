@@ -14,6 +14,14 @@ export const INSIGHT_FIELDS = [
   "actions",
   "action_values",
   "purchase_roas",
+  "video_p25_watched_actions",
+  "video_p50_watched_actions",
+  "video_p75_watched_actions",
+  "video_p100_watched_actions",
+  "video_thruplay_watched_actions",
+  "outbound_clicks",
+  "outbound_clicks_ctr",
+  "cost_per_outbound_click"
 ];
 
 export class MetaAdsAPI {
@@ -150,6 +158,17 @@ export class MetaAdsAPI {
       return response.data || [];
     } catch (error) {
       console.error("Error fetching audience breakdown:", error);
+      return [];
+  async getBestCreative(params: Record<string, any> = {}) {
+    try {
+      const response = await this.get<any>(`/${this.accountId}/ads`, {
+        fields: "name,creative{id,name,image_url,thumbnail_url,video_id}",
+        limit: 10,
+        ...params,
+      });
+      return response.data || [];
+    } catch (error) {
+      console.error("Error fetching creatives:", error);
       return [];
     }
   }

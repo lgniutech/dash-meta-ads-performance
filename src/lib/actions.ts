@@ -34,17 +34,19 @@ export async function getDashboardData(
   const params: any = timeRange ? { time_range: timeRange } : { date_preset: datePreset };
   
   // Fetch everything in parallel
-  const [summary, campaigns, daily, audience] = await Promise.all([
+  const [summary, campaigns, daily, audience, ads] = await Promise.all([
     api.getInsights(params),
     api.getCampaignInsights(params),
     api.getDailyInsights(params),
-    api.getAudienceBreakdown(params)
+    api.getAudienceBreakdown(params),
+    api.getBestCreative()
   ]);
 
   return {
     summary,
     campaigns,
     daily,
-    audience
+    audience,
+    ads
   };
 }
