@@ -2,7 +2,7 @@
 
 import { 
   TrendingUp, Users, MousePointer2, ShoppingCart, Target, Percent, Eye, Activity, 
-  MessageSquare, Play, BarChart3, Banknote, MessageCircle, MousePointer, UserPlus, Instagram
+  MessageSquare, Play, BarChart3, Banknote, MessageCircle, MousePointer, UserPlus
 } from "lucide-react";
 import { Card } from "./ui/Card";
 import { fmtBRL, fmtNum, getActionValue, safeDiv } from "@/lib/utils";
@@ -71,7 +71,7 @@ export function KPISection({ data, brand, mode }: KPIProps) {
     { label: "Iniciadas", value: msgs, icon: MessageCircle, type: "number" },
     { label: "Cliques (Link)", value: clicks, icon: MousePointer, type: "number" },
     { label: "CTR", value: ctr.toFixed(2), icon: Percent, type: "number", suffix: "%" },
-    { label: "Seguidores no Instagram", value: followers, icon: Instagram, type: "number" },
+    { label: "Seguidores no Instagram", value: followers, icon: UserPlus, type: "number" },
   ];
 
   return (
