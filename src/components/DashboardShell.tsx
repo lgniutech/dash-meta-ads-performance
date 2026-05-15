@@ -8,25 +8,29 @@ export function DashboardShell({ children }: { children: (data: any) => ReactNod
   const [accountId, setAccountId] = useState("");
   const [campaignIds, setCampaignIds] = useState<string[]>([]);
   const [datePreset, setDatePreset] = useState("last_30d");
+  const [customRange, setCustomRange] = useState({
+    since: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    until: new Date().toISOString().split('T')[0]
+  });
   const [data, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchData = useCallback(async (id: string, preset: string) => {
+  const fetchData = useCallback(async (id: string, preset: string, range: any) => {
     if (!id) return;
     setIsLoading(true);
-    const res = await getDashboardData(id, preset);
+    const res = await getDashboardData(id, preset, preset === 'custom' ? range : undefined);
     setData(res);
     setIsLoading(false);
   }, []);
 
   useEffect(() => {
     if (accountId) {
-      fetchData(accountId, datePreset);
+      fetchData(accountId, datePreset, customRange);
     }
-  }, [accountId, datePreset, fetchData]);
+  }, [accountId, datePreset, customRange, fetchData]);
 
   return (
-    <div className="min-h-screen bg-[#060e0e] text-[#ddf0f0] font-sans pb-12">
+    <div className="min-h-screen bg-[#060e0e] text-[#ddf0f0] font-sans pb-12" id="dashboard-content">
       <Navbar 
         onAccountChange={setAccountId} 
         campaigns={data?.campaigns || []}
@@ -34,6 +38,8 @@ export function DashboardShell({ children }: { children: (data: any) => ReactNod
         onCampaignChange={setCampaignIds}
         datePreset={datePreset}
         onDateChange={setDatePreset}
+        customRange={customRange}
+        onCustomChange={setCustomRange}
       />
       
       <div className="max-w-[1600px] mx-auto px-8 mt-8">

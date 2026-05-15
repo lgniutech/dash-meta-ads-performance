@@ -12,6 +12,8 @@ interface NavbarProps {
   onCampaignChange: (ids: string[]) => void;
   datePreset: string;
   onDateChange: (v: string) => void;
+  customRange: { since: string; until: string };
+  onCustomChange: (range: { since: string; until: string }) => void;
 }
 
 export function Navbar({ 
@@ -20,10 +22,12 @@ export function Navbar({
   selectedCampaigns, 
   onCampaignChange,
   datePreset,
-  onDateChange
+  onDateChange,
+  customRange,
+  onCustomChange
 }: NavbarProps) {
   return (
-    <nav className="flex items-center justify-between px-8 py-4 bg-[#060e0e] border-b border-card-border sticky top-0 z-50">
+    <nav className="flex items-center justify-between px-8 py-4 bg-[#060e0e] border-b border-card-border sticky top-0 z-50 no-export">
       <div className="flex items-center gap-6">
         {/* Logo */}
         <div className="flex items-center gap-2">
@@ -45,7 +49,12 @@ export function Navbar({
       </div>
 
       <div className="flex items-center gap-6">
-        <DateSelector value={datePreset} onChange={onDateChange} />
+        <DateSelector 
+          value={datePreset} 
+          onChange={onDateChange} 
+          customRange={customRange}
+          onCustomChange={onCustomChange}
+        />
 
         <button className="p-2 hover:bg-card rounded-xl transition-colors">
           <Search size={20} className="text-foreground/50" />

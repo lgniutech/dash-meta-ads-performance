@@ -23,18 +23,22 @@ export async function getAccounts() {
   return await api.getAdAccounts();
 }
 
-export async function getDashboardData(accountId: string, datePreset: string = "last_30d") {
+export async function getDashboardData(
+  accountId: string, 
+  datePreset: string = "last_30d",
+  timeRange?: { since: string; until: string }
+) {
   if (!TOKEN || !accountId) return null;
   
   const api = new MetaAdsAPI(TOKEN, accountId);
+  const params: any = timeRange ? { time_range: timeRange } : { date_preset: datePreset };
   
   // Fetch everything in parallel
   const [summary, campaigns, daily, audience] = await Promise.all([
-    api.getInsights({ date_preset: datePreset }),
-    api.getCampaignInsights({ date_preset: datePreset }),
-    api.getDailyInsights({ date_preset: datePreset }),
-    // api.getAudienceBreakdown({ date_preset: datePreset }) // To be implemented in meta.ts
-    Promise.resolve([]) 
+    api.getInsights(params),
+    api.getCampaignInsights(params),
+    api.getDailyInsights(params),
+    api.getAudienceBreakdown(params)
   ]);
 
   return {

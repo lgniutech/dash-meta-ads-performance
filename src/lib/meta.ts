@@ -64,10 +64,19 @@ export class MetaAdsAPI {
 
   async getInsights(params: Record<string, any> = {}) {
     try {
-      const response = await this.get<any>(`/${this.accountId}/insights`, {
+      const { date_preset, time_range, ...rest } = params;
+      const queryParams: Record<string, any> = {
         fields: INSIGHT_FIELDS.join(","),
-        ...params,
-      });
+        ...rest,
+      };
+
+      if (time_range) {
+        queryParams.time_range = JSON.stringify(time_range);
+      } else {
+        queryParams.date_preset = date_preset || "last_30d";
+      }
+
+      const response = await this.get<any>(`/${this.accountId}/insights`, queryParams);
       return response.data?.[0] || null;
     } catch (error) {
       console.error("Error fetching insights:", error);
@@ -77,11 +86,20 @@ export class MetaAdsAPI {
 
   async getCampaignInsights(params: Record<string, any> = {}) {
     try {
-      return await this.paginate<any>(`/${this.accountId}/insights`, {
+      const { date_preset, time_range, ...rest } = params;
+      const queryParams: Record<string, any> = {
         fields: "campaign_id,campaign_name,spend,impressions,clicks,reach,actions,action_values,purchase_roas,ctr,cpc,cpm,frequency",
         level: "campaign",
-        ...params,
-      });
+        ...rest,
+      };
+
+      if (time_range) {
+        queryParams.time_range = JSON.stringify(time_range);
+      } else {
+        queryParams.date_preset = date_preset || "last_30d";
+      }
+
+      return await this.paginate<any>(`/${this.accountId}/insights`, queryParams);
     } catch (error) {
       console.error("Error fetching campaign insights:", error);
       return [];
@@ -90,12 +108,21 @@ export class MetaAdsAPI {
 
   async getDailyInsights(params: Record<string, any> = {}) {
     try {
-      const response = await this.get<any>(`/${this.accountId}/insights`, {
+      const { date_preset, time_range, ...rest } = params;
+      const queryParams: Record<string, any> = {
         fields: "spend,impressions,clicks,reach,actions,action_values",
         level: "account",
         time_increment: 1,
-        ...params,
-      });
+        ...rest,
+      };
+
+      if (time_range) {
+        queryParams.time_range = JSON.stringify(time_range);
+      } else {
+        queryParams.date_preset = date_preset || "last_30d";
+      }
+
+      const response = await this.get<any>(`/${this.accountId}/insights`, queryParams);
       return response.data || [];
     } catch (error) {
       console.error("Error fetching daily insights:", error);
@@ -105,12 +132,21 @@ export class MetaAdsAPI {
 
   async getAudienceBreakdown(params: Record<string, any> = {}) {
     try {
-      const response = await this.get<any>(`/${this.accountId}/insights`, {
+      const { date_preset, time_range, ...rest } = params;
+      const queryParams: Record<string, any> = {
         fields: "spend,impressions,clicks,reach,actions,action_values",
         level: "account",
         breakdowns: "gender",
-        ...params,
-      });
+        ...rest,
+      };
+
+      if (time_range) {
+        queryParams.time_range = JSON.stringify(time_range);
+      } else {
+        queryParams.date_preset = date_preset || "last_30d";
+      }
+
+      const response = await this.get<any>(`/${this.accountId}/insights`, queryParams);
       return response.data || [];
     } catch (error) {
       console.error("Error fetching audience breakdown:", error);

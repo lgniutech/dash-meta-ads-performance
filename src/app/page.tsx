@@ -5,13 +5,42 @@ import { KPISection } from "@/components/KPISection";
 import { ChartsSection } from "@/components/ChartsSection";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/Card";
-import { Trophy, TrendingUp, Zap } from "lucide-react";
+import { Trophy, TrendingUp, Zap, Download } from "lucide-react";
+import { toPng } from "html-to-image";
+import { useCallback, useRef } from "react";
 
 export default function Home() {
+  const exportRef = useRef<HTMLDivElement>(null);
+
+  const handleExport = useCallback(() => {
+    const node = document.getElementById("dashboard-content");
+    if (!node) return;
+
+    // Filter out elements with 'no-export' class
+    const filter = (node: HTMLElement) => {
+      return !node.classList?.contains("no-export");
+    };
+
+    toPng(node, { 
+      cacheBust: true, 
+      backgroundColor: "#060e0e",
+      filter: filter as any
+    })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = `relatorio-meta-ads-${new Date().toISOString().split('T')[0]}.png`;
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.error("Oops, something went wrong!", err);
+      });
+  }, []);
+
   return (
     <DashboardShell>
       {(data) => (
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-8" ref={exportRef}>
           {/* Header Title */}
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
@@ -24,8 +53,11 @@ export default function Home() {
             </div>
             
             <div className="flex gap-4">
-              <button className="px-6 py-2.5 bg-brand text-[#060e0e] rounded-2xl font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2">
-                <Zap size={16} /> Exportar Relatório
+              <button 
+                onClick={handleExport}
+                className="px-6 py-2.5 bg-brand text-[#060e0e] rounded-2xl font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2"
+              >
+                <Download size={16} /> Exportar PNG
               </button>
             </div>
           </motion.div>
