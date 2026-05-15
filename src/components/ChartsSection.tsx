@@ -27,7 +27,6 @@ export function ChartsSection({ daily = [], campaigns = [], brand = 'weniu' }: C
     const dataMap = new Map(daily.map(d => [d.date_start, d]));
     const timeline = [];
     
-    // Go back 30 days from today
     for (let i = 29; i >= 0; i--) {
       const d = new Date();
       d.setDate(d.getDate() - i);
@@ -111,17 +110,17 @@ export function ChartsSection({ daily = [], campaigns = [], brand = 'weniu' }: C
       </Card>
 
       {/* Campaigns Pie */}
-      <Card variant="glass">
-        <h3 className="font-heading text-lg font-bold mb-6 text-foreground">Top 5 Campanhas (Gasto)</h3>
-        <div className="h-[300px] w-full">
+      <Card variant="glass" className="flex flex-col">
+        <h3 className="font-heading text-lg font-bold mb-4 text-foreground">Top 5 Campanhas (Gasto)</h3>
+        <div className="h-[220px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={campaignChartData}
                 cx="50%"
-                cy="45%"
+                cy="50%"
                 innerRadius={60}
-                outerRadius={85}
+                outerRadius={80}
                 paddingAngle={8}
                 dataKey="value"
                 animationDuration={1500}
@@ -134,13 +133,25 @@ export function ChartsSection({ daily = [], campaigns = [], brand = 'weniu' }: C
                 contentStyle={{backgroundColor: '#0f0f0f', border: 'none', borderRadius: '16px'}}
                 formatter={(v: any) => [fmtBRL(v), "Gasto"]}
               />
-              <Legend 
-                verticalAlign="bottom" 
-                iconType="circle"
-                wrapperStyle={{fontSize: '9px', fontWeight: 700, paddingTop: '20px', color: '#DCEFF6', opacity: 0.6}}
-              />
             </PieChart>
           </ResponsiveContainer>
+        </div>
+        
+        {/* Custom Clean Legend */}
+        <div className="mt-4 flex flex-col gap-2.5">
+          {campaignChartData.map((entry, i) => (
+            <div key={i} className="flex items-center justify-between group">
+              <div className="flex items-center gap-2 overflow-hidden">
+                <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: entry.color }} />
+                <span className="text-[10px] font-bold text-foreground/40 truncate group-hover:text-foreground transition-colors uppercase tracking-tight">
+                  {entry.name}
+                </span>
+              </div>
+              <span className="text-[10px] font-bold text-foreground/70 ml-2">
+                {fmtBRL(entry.value)}
+              </span>
+            </div>
+          ))}
         </div>
       </Card>
     </div>
