@@ -43,7 +43,7 @@ export default function Home() {
 
         return (
           <div className="flex flex-col gap-8">
-            {/* Header Title with Logo */}
+            {/* Header Title with Logo (Enlarged) */}
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -53,15 +53,9 @@ export default function Home() {
                 <img 
                   src={`/logos/logo-${brand}.png`} 
                   alt={brand} 
-                  className="h-14 w-auto object-contain transition-all duration-500" 
+                  className="h-28 w-auto object-contain transition-all duration-500" 
                   style={{ filter: 'invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.2)' }}
                 />
-                <div className="flex items-center gap-2 mt-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
-                  <p className="text-foreground/40 uppercase text-[10px] font-bold tracking-[0.3em]">
-                    Modo: {mode === 'food' ? 'Food & Delivery' : 'Mensagens & WhatsApp'}
-                  </p>
-                </div>
               </div>
               
               <div className="flex gap-4">
