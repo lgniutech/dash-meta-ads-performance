@@ -26,7 +26,13 @@ export function KPISection({ data, brand, mode }: KPIProps) {
   // Conversion Metrics
   const purchases = getActionValue(data?.actions, ["purchase", "offsite_conversion.fb_pixel_purchase", "onsite_web_purchase"]);
   const leads = getActionValue(data?.actions, ["lead", "offsite_conversion.fb_pixel_lead"]);
-  const msgs = getActionValue(data?.actions, ["onsite_conversation.messaging_conversation_started_7d", "messaging_conversation_started_7d"]);
+  const msgs = getActionValue(data?.actions, [
+    "onsite_conversion.messaging_conversation_started_7d", 
+    "onsite_conversion.messaging_first_reply",
+    "messaging_conversation_started_7d",
+    "messaging_first_reply",
+    "contact"
+  ]);
   const followers = getActionValue(data?.actions, ["follow", "instagram_follow", "onsite_conversion.post_save"]);
   
   // Faturamento (Purchase Value)
