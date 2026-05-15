@@ -4,7 +4,8 @@ import { ReactNode, useState, useEffect, useCallback } from "react";
 import { Navbar } from "./Navbar";
 import { getDashboardData } from "@/lib/actions";
 
-export function DashboardShell({ children }: { children: (data: any) => ReactNode }) {
+export function DashboardShell({ children }: { children: (data: any, brand: string) => ReactNode }) {
+  const [brand, setBrand] = useState("weniu"); // 'weniu' or 'weeat'
   const [accountId, setAccountId] = useState("");
   const [campaignIds, setCampaignIds] = useState<string[]>([]);
   const [datePreset, setDatePreset] = useState("last_30d");
@@ -30,8 +31,10 @@ export function DashboardShell({ children }: { children: (data: any) => ReactNod
   }, [accountId, datePreset, customRange, fetchData]);
 
   return (
-    <div className="min-h-screen bg-[#060e0e] text-[#ddf0f0] font-sans pb-12" id="dashboard-content">
+    <div className={`min-h-screen transition-colors duration-500 theme-${brand} bg-background text-foreground font-sans pb-12`} id="dashboard-content">
       <Navbar 
+        brand={brand}
+        onBrandToggle={() => setBrand(brand === 'weniu' ? 'weeat' : 'weniu')}
         onAccountChange={setAccountId} 
         campaigns={data?.campaigns || []}
         selectedCampaigns={campaignIds}
@@ -51,7 +54,7 @@ export function DashboardShell({ children }: { children: (data: any) => ReactNod
             </div>
           </div>
         ) : (
-          children(data)
+          children(data, brand)
         )}
       </div>
     </div>

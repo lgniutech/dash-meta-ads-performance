@@ -1,11 +1,13 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { Search, RefreshCw } from "lucide-react";
 import { AccountSelector } from "./AccountSelector";
 import { CampaignSelector } from "./CampaignSelector";
 import { DateSelector } from "./DateSelector";
 
 interface NavbarProps {
+  brand: string;
+  onBrandToggle: () => void;
   onAccountChange: (id: string) => void;
   campaigns: any[];
   selectedCampaigns: string[];
@@ -17,6 +19,8 @@ interface NavbarProps {
 }
 
 export function Navbar({ 
+  brand,
+  onBrandToggle,
   onAccountChange, 
   campaigns, 
   selectedCampaigns, 
@@ -27,14 +31,26 @@ export function Navbar({
   onCustomChange
 }: NavbarProps) {
   return (
-    <nav className="flex items-center justify-between px-8 py-4 bg-[#000000] border-b border-card-border/30 sticky top-0 z-50 no-export">
+    <nav className="flex items-center justify-between px-8 py-4 bg-background border-b border-card-border/10 sticky top-0 z-50 no-export transition-all duration-500">
       <div className="flex items-center gap-6">
-        {/* Logo */}
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center text-black font-bold text-lg">
-            ◆
+        {/* Logo and Brand Toggle */}
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center text-background font-bold text-lg transition-colors duration-500">
+              {brand === 'weniu' ? '◆' : '●'}
+            </div>
+            <span className="font-heading text-xl font-bold tracking-tight uppercase">
+              Relatório {brand}
+            </span>
           </div>
-          <span className="font-heading text-xl font-bold tracking-tight text-foreground">Relatório weniu</span>
+
+          <button 
+            onClick={onBrandToggle}
+            className="flex items-center gap-2 px-3 py-1.5 bg-card border border-card-border/20 rounded-full text-[10px] font-bold uppercase tracking-widest hover:border-brand/50 transition-all group"
+          >
+            <RefreshCw size={12} className="group-hover:rotate-180 transition-transform duration-500" />
+            Mudar para {brand === 'weniu' ? 'weeat' : 'weniu'}
+          </button>
         </div>
 
         {/* Selectors */}
@@ -57,7 +73,7 @@ export function Navbar({
         />
 
         <button className="p-2 hover:bg-card rounded-xl transition-colors">
-          <Search size={20} className="text-foreground/50" />
+          <Search size={20} className="text-foreground/30" />
         </button>
       </div>
     </nav>

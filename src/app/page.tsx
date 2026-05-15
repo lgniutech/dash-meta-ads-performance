@@ -10,7 +10,7 @@ import { toPng } from "html-to-image";
 import { useCallback } from "react";
 
 export default function Home() {
-  const handleExport = useCallback(() => {
+  const handleExport = useCallback((brand: string) => {
     const node = document.getElementById("dashboard-content");
     if (!node) return;
 
@@ -18,14 +18,16 @@ export default function Home() {
       return !node.classList?.contains("no-export");
     };
 
+    const bgColor = brand === 'weniu' ? "#000000" : "#fbf3e8";
+
     toPng(node, { 
       cacheBust: true, 
-      backgroundColor: "#000000",
+      backgroundColor: bgColor,
       filter: filter as any
     })
       .then((dataUrl) => {
         const link = document.createElement("a");
-        link.download = `relatorio-weniu-${new Date().toISOString().split('T')[0]}.png`;
+        link.download = `relatorio-${brand}-${new Date().toISOString().split('T')[0]}.png`;
         link.href = dataUrl;
         link.click();
       })
@@ -36,7 +38,7 @@ export default function Home() {
 
   return (
     <DashboardShell>
-      {(data) => {
+      {(data, brand) => {
         const bestAd = data?.ads?.[0] || null;
         const creative = bestAd?.creative;
         const creativeUrl = creative?.image_url || creative?.thumbnail_url;
@@ -50,14 +52,16 @@ export default function Home() {
               className="flex items-center justify-between"
             >
               <div>
-                <h1 className="text-4xl font-heading font-extrabold tracking-tight">Relatório weniu</h1>
-                <p className="text-foreground/50 mt-1 uppercase text-[10px] font-bold tracking-[0.2em]">Data-Driven Performance Command Center</p>
+                <h1 className="text-4xl font-heading font-extrabold tracking-tight">Relatório {brand}</h1>
+                <p className="text-foreground/50 mt-1 uppercase text-[10px] font-bold tracking-[0.2em]">
+                  {brand === 'weniu' ? 'Data-Driven Performance Command Center' : 'Growth & Nutrition Intelligence Hub'}
+                </p>
               </div>
               
               <div className="flex gap-4">
                 <button 
-                  onClick={handleExport}
-                  className="px-6 py-2.5 bg-brand text-black rounded-2xl font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2 shadow-[0_0_20px_rgba(3,217,103,0.3)]"
+                  onClick={() => handleExport(brand)}
+                  className="px-6 py-2.5 bg-brand text-background rounded-2xl font-bold text-sm hover:scale-105 transition-transform flex items-center gap-2 shadow-[0_0_20px_rgba(var(--brand-color),0.3)]"
                 >
                   <Download size={16} /> Exportar PNG
                 </button>
@@ -84,7 +88,7 @@ export default function Home() {
                   </div>
 
                   <div className="flex flex-col gap-4">
-                    <div className="aspect-[4/5] bg-card-border/30 rounded-2xl overflow-hidden relative border border-card-border/50">
+                    <div className="aspect-[4/5] bg-card-border/10 rounded-2xl overflow-hidden relative border border-card-border/20">
                       {creativeUrl ? (
                         <img 
                           src={creativeUrl} 
@@ -96,9 +100,9 @@ export default function Home() {
                           <Zap size={40} />
                         </div>
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
                       <div className="absolute bottom-4 left-4 right-4">
-                        <button className="w-full py-2 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-white/20 transition-colors">
+                        <button className="w-full py-2 bg-brand/10 backdrop-blur-md border border-brand/20 text-foreground rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-brand/20 transition-colors">
                           <ExternalLink size={14} /> Ver na Biblioteca
                         </button>
                       </div>
@@ -114,10 +118,10 @@ export default function Home() {
                 <Card className="bg-brand/5 border-brand/20">
                   <div className="flex items-center gap-2 text-brand mb-2">
                     <TrendingUp size={16} />
-                    <span className="text-[10px] font-bold uppercase tracking-widest">Weniu Insight</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest">{brand} Insight</span>
                   </div>
                   <p className="text-xs leading-relaxed text-foreground/70">
-                    O criativo acima está gerando um engajamento 30% superior à média. Considere duplicar o público.
+                    O criativo acima está gerando um engajamento superior à média. Considere duplicar o público.
                   </p>
                 </Card>
               </div>
