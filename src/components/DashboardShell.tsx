@@ -4,8 +4,9 @@ import { ReactNode, useState, useEffect, useCallback } from "react";
 import { Navbar } from "./Navbar";
 import { getDashboardData } from "@/lib/actions";
 
-export function DashboardShell({ children }: { children: (data: any, brand: string) => ReactNode }) {
+export function DashboardShell({ children }: { children: (data: any, brand: string, mode: string) => ReactNode }) {
   const [brand, setBrand] = useState("weniu"); // 'weniu' or 'weeat'
+  const [mode, setMode] = useState("food"); // 'food' or 'message'
   const [accountId, setAccountId] = useState("");
   const [campaignIds, setCampaignIds] = useState<string[]>([]);
   const [datePreset, setDatePreset] = useState("last_30d");
@@ -35,6 +36,8 @@ export function DashboardShell({ children }: { children: (data: any, brand: stri
       <Navbar 
         brand={brand}
         onBrandToggle={() => setBrand(brand === 'weniu' ? 'weeat' : 'weniu')}
+        mode={mode}
+        onModeToggle={setMode}
         onAccountChange={setAccountId} 
         campaigns={data?.campaigns || []}
         selectedCampaigns={campaignIds}
@@ -54,7 +57,7 @@ export function DashboardShell({ children }: { children: (data: any, brand: stri
             </div>
           </div>
         ) : (
-          children(data, brand)
+          children(data, brand, mode)
         )}
       </div>
     </div>

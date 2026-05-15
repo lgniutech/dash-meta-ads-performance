@@ -36,7 +36,7 @@ export default function Home() {
 
   return (
     <DashboardShell>
-      {(data, brand) => {
+      {(data, brand, mode) => {
         const bestAd = data?.ads?.[0] || null;
         const creative = bestAd?.creative;
         const creativeUrl = creative?.image_url || creative?.thumbnail_url;
@@ -51,6 +51,12 @@ export default function Home() {
             >
               <div>
                 <h1 className="text-4xl font-heading font-extrabold tracking-tight uppercase">Relatório {brand}</h1>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
+                  <p className="text-foreground/40 uppercase text-[10px] font-bold tracking-[0.3em]">
+                    Modo: {mode === 'food' ? 'Food & Delivery' : 'Mensagens & WhatsApp'}
+                  </p>
+                </div>
               </div>
               
               <div className="flex gap-4">
@@ -64,7 +70,7 @@ export default function Home() {
             </motion.div>
 
             {/* KPIs and Funnel */}
-            <KPISection data={data?.summary} brand={brand} />
+            <KPISection data={data?.summary} brand={brand} mode={mode} />
 
             {/* Charts and Sidebar */}
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">

@@ -2,7 +2,7 @@
 
 import { 
   TrendingUp, Users, MousePointer2, ShoppingCart, Target, Percent, Eye, Activity, 
-  MessageSquare, Play, BarChart3
+  MessageSquare, Play, BarChart3, Banknote, MessageCircle
 } from "lucide-react";
 import { Card } from "./ui/Card";
 import { fmtBRL, fmtNum, getActionValue, safeDiv } from "@/lib/utils";
@@ -10,9 +10,10 @@ import { fmtBRL, fmtNum, getActionValue, safeDiv } from "@/lib/utils";
 interface KPIProps {
   data: any;
   brand: string;
+  mode: string;
 }
 
-export function KPISection({ data, brand }: KPIProps) {
+export function KPISection({ data, brand, mode }: KPIProps) {
   const brandColor = brand === 'weniu' ? '#03D967' : '#f39424';
 
   const spend = parseFloat(data?.spend || 0);
@@ -24,18 +25,24 @@ export function KPISection({ data, brand }: KPIProps) {
   // Conversion Metrics - Using multiple action types for robustness
   const purchases = getActionValue(data?.actions, ["purchase", "offsite_conversion.fb_pixel_purchase", "onsite_web_purchase"]);
   const leads = getActionValue(data?.actions, ["lead", "offsite_conversion.fb_pixel_lead"]);
-  const msgs = getActionValue(data?.actions, ["onsite_conversion.messaging_conversation_started_7d"]);
+  const msgs = getActionValue(data?.actions, ["onsite_conversion.messaging_conversation_started_7d", "messaging_conversation_started_7d"]);
   
-  // Landing Page fallback: if landing_page_view is 0, try view_content or outbound_clicks
+  // Faturamento (Purchase Value)
+  const revenue = getActionValue(data?.action_values, ["purchase", "offsite_conversion.fb_pixel_purchase"]);
+
+  // Landing Page fallback
   let lpViews = getActionValue(data?.actions, ["landing_page_view", "omni_landing_page_view"]);
   if (lpViews === 0) {
     lpViews = getActionValue(data?.actions, ["view_content", "offsite_conversion.fb_pixel_view_content"]);
   }
   
-  const totalConversions = purchases + leads + msgs;
+  const totalConversions = mode === 'message' ? msgs : (purchases + leads + msgs);
   
   const cpa = safeDiv(spend, totalConversions);
-  const roas = getActionValue(data?.action_values, ["purchase", "offsite_conversion.fb_pixel_purchase"]) / (spend || 1);
+  const roas = safeDiv(revenue, spend);
+  const cpm = safeDiv(spend, msions) * 1000; // Not used but available
+  const cpm_val = parseFloat(data?.cpm || 0);
+  const costPerMsg = safeDiv(spend, msgs);
 
   // Video Metrics
   const thruplays = getActionValue(data?.video_thruplay_watched_actions, "video_view");
@@ -44,17 +51,25 @@ export function KPISection({ data, brand }: KPIProps) {
   const p75 = getActionValue(data?.video_p75_watched_actions, "video_view");
   const p100 = getActionValue(data?.video_p100_watched_actions, "video_view");
 
+  // Dynamic KPIs based on mode
   const primaryKpis = [
     { label: "Investimento", value: spend, icon: TrendingUp, type: "currency" },
     { label: "Impressões", value: impressions, icon: Users, type: "number" },
-    { label: "Frequência", value: frequency.toFixed(2), icon: Activity, type: "number" },
+    // Slot 3: Faturamento vs Iniciadas
+    mode === 'food' 
+      ? { label: "Faturamento", value: revenue, icon: Banknote, type: "currency" }
+      : { label: "Iniciadas", value: msgs, icon: MessageCircle, type: "number" },
     { label: "Resultados", value: totalConversions, icon: ShoppingCart, type: "number" },
     { label: "Custo / Res", value: cpa, icon: Target, type: "currency" },
-    { label: "ROAS", value: roas.toFixed(2), icon: Percent, type: "number", suffix: "x" },
+    // Slot 6: ROAS vs Custo / Msg
+    mode === 'food'
+      ? { label: "ROAS", value: roas.toFixed(2), icon: Percent, type: "number", suffix: "x" }
+      : { label: "Custo / Msg", value: costPerMsg, icon: MessageSquare, type: "currency" },
   ];
 
   return (
     <div className="flex flex-col gap-6">
+      {/* Primary Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-4">
         {primaryKpis.map((kpi) => (
           <Card key={kpi.label} className="group transition-all duration-300">
@@ -77,14 +92,21 @@ export function KPISection({ data, brand }: KPIProps) {
         <Card variant="glass" className="p-6">
           <div className="flex items-center gap-3 mb-6">
             <BarChart3 size={20} style={{ color: brandColor }} />
-            <h3 className="font-heading text-lg font-bold">Funil de Conversão</h3>
+            <h3 className="font-heading text-lg font-bold">Funil de Conversão ({mode === 'food' ? 'Vendas' : 'Mensagens'})</h3>
           </div>
           
           <div className="space-y-4">
             <FunnelStep label="Alcance" value={reach} total={reach} icon={<Users size={14}/>} brandColor={brandColor} />
             <FunnelStep label="Cliques no Link" value={clicks} total={reach} icon={<MousePointer2 size={14}/>} brandColor={brandColor} />
-            <FunnelStep label="Landing Page" value={lpViews} total={clicks} icon={<Eye size={14}/>} brandColor={brandColor} />
-            <FunnelStep label="Resultados" value={totalConversions} total={lpViews || clicks} icon={<MessageSquare size={14}/>} highlight brandColor={brandColor} />
+            {mode === 'food' && <FunnelStep label="Landing Page" value={lpViews} total={clicks} icon={<Eye size={14}/>} brandColor={brandColor} />}
+            <FunnelStep 
+              label={mode === 'food' ? "Resultados" : "Contatos WhatsApp"} 
+              value={totalConversions} 
+              total={mode === 'food' ? lpViews || clicks : clicks} 
+              icon={<MessageSquare size={14}/>} 
+              highlight 
+              brandColor={brandColor} 
+            />
           </div>
         </Card>
 

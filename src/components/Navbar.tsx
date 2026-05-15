@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, RefreshCw } from "lucide-react";
+import { Search, RefreshCw, MessageSquare, UtensilsCrossed } from "lucide-react";
 import { AccountSelector } from "./AccountSelector";
 import { CampaignSelector } from "./CampaignSelector";
 import { DateSelector } from "./DateSelector";
@@ -8,6 +8,8 @@ import { DateSelector } from "./DateSelector";
 interface NavbarProps {
   brand: string;
   onBrandToggle: () => void;
+  mode: string;
+  onModeToggle: (mode: string) => void;
   onAccountChange: (id: string) => void;
   campaigns: any[];
   selectedCampaigns: string[];
@@ -21,6 +23,8 @@ interface NavbarProps {
 export function Navbar({ 
   brand,
   onBrandToggle,
+  mode,
+  onModeToggle,
   onAccountChange, 
   campaigns, 
   selectedCampaigns, 
@@ -54,6 +58,24 @@ export function Navbar({
             Alterar Marca
           </button>
         </div>
+
+        {/* Mode Selector */}
+        <div className="flex items-center bg-white/5 rounded-2xl p-1 border border-white/5">
+          <button 
+            onClick={() => onModeToggle('food')}
+            className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${mode === 'food' ? 'bg-brand text-black shadow-lg shadow-brand/20' : 'text-foreground/40 hover:text-foreground'}`}
+          >
+            <UtensilsCrossed size={12} /> Food
+          </button>
+          <button 
+            onClick={() => onModeToggle('message')}
+            className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${mode === 'message' ? 'bg-brand text-black shadow-lg shadow-brand/20' : 'text-foreground/40 hover:text-foreground'}`}
+          >
+            <MessageSquare size={12} /> Mensagens
+          </button>
+        </div>
+
+        <div className="h-8 w-[1px] bg-white/5 mx-2" />
 
         {/* Selectors */}
         <div className="flex items-center gap-3">
