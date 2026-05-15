@@ -42,7 +42,14 @@ export function KPISection({ data, brand, mode }: KPIProps) {
   const roas = safeDiv(revenue, spend);
   const costPerMsg = safeDiv(spend, msgs);
 
-  // Dynamic KPIs based on mode - ELIMINATING REDUNDANCY
+  // Video Metrics
+  const thruplays = getActionValue(data?.video_thruplay_watched_actions, "video_view");
+  const p25 = getActionValue(data?.video_p25_watched_actions, "video_view");
+  const p50 = getActionValue(data?.video_p50_watched_actions, "video_view");
+  const p75 = getActionValue(data?.video_p75_watched_actions, "video_view");
+  const p100 = getActionValue(data?.video_p100_watched_actions, "video_view");
+
+  // Dynamic KPIs based on mode
   const primaryKpis = mode === 'food' ? [
     { label: "Investimento", value: spend, icon: TrendingUp, type: "currency" },
     { label: "Impressões", value: impressions, icon: Users, type: "number" },
