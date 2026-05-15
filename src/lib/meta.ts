@@ -159,6 +159,9 @@ export class MetaAdsAPI {
     } catch (error) {
       console.error("Error fetching audience breakdown:", error);
       return [];
+    }
+  }
+
   async getBestCreative(params: Record<string, any> = {}) {
     try {
       const response = await this.get<any>(`/${this.accountId}/ads`, {
