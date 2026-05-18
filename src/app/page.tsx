@@ -66,7 +66,7 @@ export default function Home() {
              <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="no-export flex flex-col sm:flex-row items-center sm:justify-between gap-6"
+              className="flex flex-col sm:flex-row items-center sm:justify-between gap-6"
             >
               <div>
                 <img 
@@ -77,10 +77,10 @@ export default function Home() {
                 />
               </div>
               
-              <div className="flex gap-4">
+              <div className="flex gap-4 no-export">
                 <button 
                   onClick={() => handleExport(brand)}
-                  className="no-export px-6 py-2.5 bg-brand text-black rounded-2xl font-bold text-sm hover:scale-105 transition-all flex items-center gap-2 shadow-[0_10px_25px_rgba(var(--brand-color),0.2)]"
+                  className="px-6 py-2.5 bg-brand text-black rounded-2xl font-bold text-sm hover:scale-105 transition-all flex items-center gap-2 shadow-[0_10px_25px_rgba(var(--brand-color),0.2)]"
                 >
                   <Download size={16} /> Exportar PNG
                 </button>
