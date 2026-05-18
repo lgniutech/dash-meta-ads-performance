@@ -52,7 +52,12 @@ export default function Home() {
       {(data, brand, mode) => {
         const bestAd = data?.ads?.[0] || null;
         const creative = bestAd?.creative;
-        const creativeUrl = creative?.image_url || creative?.thumbnail_url;
+        let creativeUrl = creative?.image_url || creative?.thumbnail_url;
+
+        // Tentar obter a imagem em alta resolução ajustando os parâmetros da CDN do Meta
+        if (creativeUrl && creativeUrl.includes("fbcdn.net")) {
+          creativeUrl = creativeUrl.replace(/([ps])\d+x\d+/g, '$11080x1080');
+        }
 
         return (
           <div className="flex flex-col gap-8">
