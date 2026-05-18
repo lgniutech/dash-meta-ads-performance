@@ -115,7 +115,12 @@ export default function Home() {
                           className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" 
                           onError={(e) => {
                             const target = e.currentTarget;
-                            if (target.src !== originalUrl) {
+                            const currentSrc = target.src;
+                            if (currentSrc.includes('1080x1080')) {
+                              target.src = originalUrl ? originalUrl.replace(/([ps])\d+x\d+/g, '$1720x720') : '';
+                            } else if (currentSrc.includes('720x720')) {
+                              target.src = originalUrl ? originalUrl.replace(/([ps])\d+x\d+/g, '$1480x480') : '';
+                            } else if (currentSrc !== originalUrl) {
                               target.src = originalUrl || '';
                             }
                           }}
