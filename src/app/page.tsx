@@ -52,7 +52,8 @@ export default function Home() {
       {(data, brand, mode) => {
         const bestAd = data?.ads?.[0] || null;
         const creative = bestAd?.creative;
-        let creativeUrl = creative?.image_url || creative?.thumbnail_url;
+        const originalUrl = creative?.image_url || creative?.thumbnail_url;
+        let creativeUrl = originalUrl;
 
         // Tentar obter a imagem em alta resolução ajustando os parâmetros da CDN do Meta
         if (creativeUrl && creativeUrl.includes("fbcdn.net")) {
@@ -112,6 +113,12 @@ export default function Home() {
                           src={creativeUrl} 
                           alt="Champion Creative" 
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            if (target.src !== originalUrl) {
+                              target.src = originalUrl || '';
+                            }
+                          }}
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-brand/10">
