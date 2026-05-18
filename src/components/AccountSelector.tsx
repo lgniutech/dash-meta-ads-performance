@@ -35,7 +35,7 @@ export function AccountSelector({ onSelect }: { onSelect: (id: string) => void }
     <div className="relative">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 px-4 py-2 bg-card border border-card-border rounded-2xl hover:border-brand/50 transition-colors min-w-[220px] justify-between"
+        className="flex items-center gap-3 px-4 py-2 bg-[#141414] lg:bg-card border border-white/10 lg:border-card-border rounded-2xl hover:border-brand/50 transition-colors min-w-[220px] justify-between w-full"
       >
         <div className="flex items-center gap-3 overflow-hidden">
           <div className="w-2 h-2 bg-brand rounded-full shrink-0" />
@@ -45,10 +45,10 @@ export function AccountSelector({ onSelect }: { onSelect: (id: string) => void }
         </div>
         <ChevronDown size={14} className={`text-foreground/50 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
-
+ 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 w-[280px] bg-card border border-card-border rounded-2xl shadow-2xl z-[60] overflow-hidden flex flex-col">
-          <div className="p-2 border-b border-card-border sticky top-0 bg-card z-10">
+        <div className="absolute top-full left-0 mt-2 w-[280px] bg-[#141414] lg:bg-card border border-white/10 lg:border-card-border rounded-2xl shadow-2xl z-[60] overflow-hidden flex flex-col">
+          <div className="p-2 border-b border-white/10 lg:border-card-border sticky top-0 bg-[#141414] lg:bg-card z-10">
             <div className="relative">
               <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground/40" />
               <input 
