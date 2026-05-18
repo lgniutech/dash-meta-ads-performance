@@ -18,54 +18,33 @@ export default function Home() {
       return !node.classList?.contains("no-export");
     };
 
-    // Save original styles to restore them later
-    const originalStyle = node.getAttribute('style') || '';
-    const isMobile = window.innerWidth < 1024;
+    // Force full dimensions calculation
+    const width = node.offsetWidth;
+    const height = node.scrollHeight;
 
-    if (isMobile) {
-      // Force desktop width for beautiful horizontal PNG export on mobile
-      // Keep it on-screen so the GPU is forced to paint all elements and avoid blank/black images
-      node.style.width = '1280px';
-    }
-
-    // Wait a brief moment for Recharts to adjust to the new size
-    setTimeout(() => {
-      const width = isMobile ? 1280 : node.offsetWidth;
-      const height = node.scrollHeight;
-
-      toPng(node, { 
-        cacheBust: true, 
-        backgroundColor: "#000000",
-        filter: filter as any,
-        pixelRatio: 2,
-        width: width,
-        height: height,
-        style: {
-          transform: 'scale(1)',
-          transformOrigin: 'top left',
-          width: width + 'px',
-          height: height + 'px'
-        }
+    toPng(node, { 
+      cacheBust: true, 
+      backgroundColor: "#000000",
+      filter: filter as any,
+      pixelRatio: 2,
+      width: width,
+      height: height,
+      style: {
+        transform: 'scale(1)',
+        transformOrigin: 'top left',
+        width: width + 'px',
+        height: height + 'px'
+      }
+    })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = `relatorio-${brand}-${new Date().toISOString().split('T')[0]}.png`;
+        link.href = dataUrl;
+        link.click();
       })
-        .then((dataUrl) => {
-          const link = document.createElement("a");
-          link.download = `relatorio-${brand}-${new Date().toISOString().split('T')[0]}.png`;
-          link.href = dataUrl;
-          link.click();
-          
-          // Restore original styles
-          if (isMobile) {
-            node.setAttribute('style', originalStyle);
-          }
-        })
-        .catch((err) => {
-          console.error("Export failed", err);
-          // Restore original styles on error
-          if (isMobile) {
-            node.setAttribute('style', originalStyle);
-          }
-        });
-    }, 150);
+      .catch((err) => {
+        console.error("Export failed", err);
+      });
   }, []);
 
   return (
@@ -87,7 +66,7 @@ export default function Home() {
              <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="flex flex-col sm:flex-row items-center sm:justify-between gap-6"
+              className="no-export flex flex-col sm:flex-row items-center sm:justify-between gap-6"
             >
               <div>
                 <img 
