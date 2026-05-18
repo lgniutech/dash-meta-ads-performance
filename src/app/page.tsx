@@ -112,7 +112,7 @@ export default function Home() {
                         <img 
                           src={creativeUrl} 
                           alt="Champion Creative" 
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" 
                           onError={(e) => {
                             const target = e.currentTarget;
                             if (target.src !== originalUrl) {
