@@ -24,10 +24,8 @@ export default function Home() {
 
     if (isMobile) {
       // Force desktop width for beautiful horizontal PNG export on mobile
+      // Keep it on-screen so the GPU is forced to paint all elements and avoid blank/black images
       node.style.width = '1280px';
-      node.style.position = 'fixed';
-      node.style.left = '-9999px';
-      node.style.top = '0';
     }
 
     // Wait a brief moment for Recharts to adjust to the new size
