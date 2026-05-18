@@ -18,33 +18,56 @@ export default function Home() {
       return !node.classList?.contains("no-export");
     };
 
-    // Force full dimensions calculation
-    const width = node.offsetWidth;
-    const height = node.scrollHeight;
+    // Save original styles to restore them later
+    const originalStyle = node.getAttribute('style') || '';
+    const isMobile = window.innerWidth < 1024;
 
-    toPng(node, { 
-      cacheBust: true, 
-      backgroundColor: "#000000",
-      filter: filter as any,
-      pixelRatio: 2,
-      width: width,
-      height: height,
-      style: {
-        transform: 'scale(1)',
-        transformOrigin: 'top left',
-        width: width + 'px',
-        height: height + 'px'
-      }
-    })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
-        link.download = `relatorio-${brand}-${new Date().toISOString().split('T')[0]}.png`;
-        link.href = dataUrl;
-        link.click();
+    if (isMobile) {
+      // Force desktop width for beautiful horizontal PNG export on mobile
+      node.style.width = '1280px';
+      node.style.position = 'fixed';
+      node.style.left = '-9999px';
+      node.style.top = '0';
+    }
+
+    // Wait a brief moment for Recharts to adjust to the new size
+    setTimeout(() => {
+      const width = isMobile ? 1280 : node.offsetWidth;
+      const height = node.scrollHeight;
+
+      toPng(node, { 
+        cacheBust: true, 
+        backgroundColor: "#000000",
+        filter: filter as any,
+        pixelRatio: 2,
+        width: width,
+        height: height,
+        style: {
+          transform: 'scale(1)',
+          transformOrigin: 'top left',
+          width: width + 'px',
+          height: height + 'px'
+        }
       })
-      .catch((err) => {
-        console.error("Export failed", err);
-      });
+        .then((dataUrl) => {
+          const link = document.createElement("a");
+          link.download = `relatorio-${brand}-${new Date().toISOString().split('T')[0]}.png`;
+          link.href = dataUrl;
+          link.click();
+          
+          // Restore original styles
+          if (isMobile) {
+            node.setAttribute('style', originalStyle);
+          }
+        })
+        .catch((err) => {
+          console.error("Export failed", err);
+          // Restore original styles on error
+          if (isMobile) {
+            node.setAttribute('style', originalStyle);
+          }
+        });
+    }, 150);
   }, []);
 
   return (
@@ -63,16 +86,16 @@ export default function Home() {
         return (
           <div className="flex flex-col gap-8">
             {/* Header Title with Logo */}
-            <motion.div 
+             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="flex items-center justify-between"
+              className="flex flex-col sm:flex-row items-center sm:justify-between gap-6"
             >
               <div>
                 <img 
                   src={`/logos/logo-${brand}.png`} 
                   alt={brand} 
-                  className="h-28 w-auto object-contain transition-all duration-500" 
+                  className="h-24 sm:h-28 w-auto object-contain transition-all duration-500" 
                   style={{ filter: 'invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.2)' }}
                 />
               </div>

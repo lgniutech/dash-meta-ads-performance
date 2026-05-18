@@ -83,21 +83,28 @@ export function KPISection({ data, brand, mode }: KPIProps) {
   return (
     <div className="flex flex-col gap-6">
       {/* Primary Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-6 gap-4">
-        {primaryKpis.map((kpi) => (
-          <Card key={kpi.label} className="group transition-all duration-300">
-            <div className="flex items-center justify-between mb-2">
-              <div className="p-2 transition-colors" style={{ color: brandColor }}>
-                <kpi.icon size={22} />
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 md:gap-4">
+        {primaryKpis.map((kpi) => {
+          const valueStr = kpi.type === "currency" ? fmtBRL(kpi.value) : fmtNum(kpi.value);
+          const displayValue = `${valueStr}${kpi.suffix || ""}`;
+
+          return (
+            <Card key={kpi.label} className="group transition-all duration-300 p-4 md:p-5">
+              <div className="flex items-center justify-between mb-2">
+                <div className="p-1.5 md:p-2 transition-colors" style={{ color: brandColor }}>
+                  <kpi.icon size={20} className="md:w-[22px] md:h-[22px]" />
+                </div>
               </div>
-            </div>
-            <p className="text-[10px] text-foreground/40 uppercase font-bold tracking-widest">{kpi.label}</p>
-            <h3 className="text-xl font-heading font-bold mt-1 text-foreground">
-              {kpi.type === "currency" ? fmtBRL(kpi.value) : fmtNum(kpi.value)}
-              {kpi.suffix}
-            </h3>
-          </Card>
-        ))}
+              <p className="text-[9px] md:text-[10px] text-foreground/40 uppercase font-bold tracking-widest truncate">{kpi.label}</p>
+              <h3 
+                className="text-sm xs:text-base sm:text-lg md:text-xl font-heading font-bold mt-1 text-foreground truncate"
+                title={displayValue}
+              >
+                {displayValue}
+              </h3>
+            </Card>
+          );
+        })}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

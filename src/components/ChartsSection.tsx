@@ -93,6 +93,7 @@ export function ChartsSection({ daily = [], campaigns = [], brand = 'weniu' }: C
                 dataKey="date" 
                 axisLine={false} 
                 tickLine={false} 
+                minTickGap={35}
                 tick={{fill: '#DCEFF6', fontSize: 10, fontWeight: 700, opacity: 0.3}} 
               />
               <YAxis 

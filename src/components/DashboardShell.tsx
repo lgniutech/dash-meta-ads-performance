@@ -96,7 +96,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
           onCustomChange={setCustomRange}
         />
         
-        <main className="max-w-[1600px] mx-auto px-8 mt-8 pb-20 relative">
+        <main className="max-w-[1600px] mx-auto px-4 md:px-8 mt-6 md:mt-8 pb-16 md:pb-20 relative">
           {isLoading && (
             <div className="absolute inset-0 z-10 bg-background/50 backdrop-blur-sm flex items-center justify-center rounded-3xl">
               <div className="flex flex-col items-center gap-4">
